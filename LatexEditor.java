@@ -1,9 +1,9 @@
-import java.io.*;
+//import java.io.*;
 import java.util.Scanner;
 
 public class LatexEditor{
      public static void main(String[] args) {
-        System.out.println("Please give a number to create a specific LaTeX document");
+        /*System.out.println("Please give a number to create a specific LaTeX document");
         System.out.println("If any other input is given then an empty document will be created");
         System.out.println("- 1 for a report template");
         System.out.println("- 2 for a book template");
@@ -14,26 +14,26 @@ public class LatexEditor{
         int num = in.nextInt();
         System.out.println("");
         
-        if(num == 1){
+        if (num == 1) {
             ReportTemplate template = new ReportTemplate();
             template.createTemplate();
-        }
-        else if(num == 2){
+        } else if (num == 2) {
             BookTemplate template = new BookTemplate();
             template.createTemplate();
-        }
-        else if(num == 3){
+        } else if (num == 3) {
             ArticleTemplate template = new ArticleTemplate();
             template.createTemplate();
-        }
-        else if(num == 4){
+        } else if (num == 4) {
             LetterTemplate template = new LetterTemplate();
             template.createTemplate();
-        }
-        else{
+        } else {
             EmptyTemplate template = new EmptyTemplate();
             template.createTemplate();
-        }
-        in.close();
+        }*/
+        UICreator userInterface = new UICreator();
+        userInterface.createUI();
+        /*OSDetector operatingSystemDetect = new OSDetector();         anoigei to latex file mesa sto vsc
+        operatingSystemDetect.openFile();*/
+        //in.close();
     }
 }
