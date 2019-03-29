@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.*;
 import java.awt.event.*;
 //import java.awt.Dimension;
 //import java.awt.Container;
@@ -130,7 +131,6 @@ public class UICreator{
     }
 
     public void createSecondUI(String latexString){
-        System.out.println("second");
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
         f.setLocation(300,200);
@@ -162,24 +162,26 @@ public class UICreator{
         f.getContentPane().add(BorderLayout.CENTER, textArea);
         textArea.append(latexString);
         textArea.setCaretPosition(textArea.getDocument().getLength());
-        save.addActionListener(new ActionLIstener(){
+        save.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 try {
-                    File dest = new FileWriter("template.tex");
+                    FileWriter dest;
+                    dest = new FileWriter("tost.tex");
                     dest.write(textArea.getText());
                     dest.close();
-                    } catch (FileNotFoundException e) {
+                    } catch (FileNotFoundException err) {
             
-                    } catch (IOException e) {
+                    } catch (IOException err) {
             
                     }                
             }
         });
-        load.addActionListener(new Actionlistener(){
+        load.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 LoadTemplate loadedtmp = new LoadTemplate();
                 //TO DO pop-up me entry file path
-                loadedtmp.create("")
+                
+                //loadedtmp.createTemplate();
             }
         });
         f.setVisible(true);

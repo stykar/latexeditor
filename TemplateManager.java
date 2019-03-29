@@ -148,35 +148,35 @@ class EmptyTemplate implements TemplateManager{
     public String createTemplate(File f){
         return null;
     }
+}
 
-    class LoadTemplate implements TemplateManager{
-        public String createTemplate(File inputFile){
-            String latexString="";
-            try {
-                System.out.print("0");
-                BufferedReader src;
-                FileWriter dest;
-                String line="";
-                src = new BufferedReader(new FileReader(inputFile));
-                dest = new FileWriter("template.tex");
+class LoadTemplate implements TemplateManager{
+    public String createTemplate(File inputFile){
+        String latexString="";
+        try {
+            System.out.print("0");
+            BufferedReader src;
+            FileWriter dest;
+            String line="";
+            src = new BufferedReader(new FileReader(inputFile));
+            dest = new FileWriter("template.tex");
+            line=src.readLine();
+            while (line != null) {
+                dest.write(line+"\n");
+                latexString+=line+"\n";
                 line=src.readLine();
-                while (line != null) {
-                    dest.write(line+"\n");
-                    latexString+=line+"\n";
-                    line=src.readLine();
-                }
-                src.close();
-                dest.close();
-            } catch (FileNotFoundException e) {
-    
-            } catch (IOException e) {
-    
             }
-            return latexString;
-        }
+            src.close();
+            dest.close();
+        } catch (FileNotFoundException e) {
 
-        public String createTemplate(){
-            return null;
+        } catch (IOException e) {
+
         }
+        return latexString;
+    }
+
+    public String createTemplate(){
+        return null;
     }
 }
