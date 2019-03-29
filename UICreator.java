@@ -15,13 +15,7 @@ public class UICreator{
         f.setSize(1000, 600);
         f.setLocation(300,200);
         //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JMenuBar mb = new JMenuBar();
-        JMenu file = new JMenu("File");
-        mb.add(file);
-        JMenuItem save = new JMenuItem("Save");
-        file.add(save);
-        JMenuItem restore = new JMenuItem("Restore");
-        file.add(restore);
+
         JPanel p = new JPanel(new GridBagLayout());
         JLabel lab = new JLabel("Choose Template:");
         String latexString="";
@@ -47,7 +41,6 @@ public class UICreator{
         p.add(tmp3Button,c);
         p.add(tmp4Button,c);
         p.add(tmp5Button,c);
-        f.setJMenuBar(mb);
         f.add(p);
 
         tmp1Button.addActionListener(new ActionListener(){
@@ -142,10 +135,53 @@ public class UICreator{
         f.setSize(1000, 600);
         f.setLocation(300,200);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JMenuBar mb = new JMenuBar();
+        JMenu file = new JMenu("File");
+        mb.add(file);
+        JMenuItem save = new JMenuItem("Save");
+        /*
+        try {
+            File dest = new FileWriter("template.tex");
+            dest.write(textArea.getText());
+            dest.close();
+            } catch (FileNotFoundException e) {
+    
+            } catch (IOException e) {
+    
+            }
+        */
+        file.add(save);
+        JMenuItem load = new JMenuItem("Load");
+        file.add(load);
+        JMenu edit = new JMenu("Edit");
+        mb.add(edit);
+        JMenuItem undo = new JMenuItem("Undo");
+        edit.add(undo);
+        f.setJMenuBar(mb);
         final JTextArea textArea = new JTextArea(200, 400);
         f.getContentPane().add(BorderLayout.CENTER, textArea);
         textArea.append(latexString);
         textArea.setCaretPosition(textArea.getDocument().getLength());
+        save.addActionListener(new ActionLIstener(){
+            public void actionPerformed(ActionEvent e){
+                try {
+                    File dest = new FileWriter("template.tex");
+                    dest.write(textArea.getText());
+                    dest.close();
+                    } catch (FileNotFoundException e) {
+            
+                    } catch (IOException e) {
+            
+                    }                
+            }
+        });
+        load.addActionListener(new Actionlistener(){
+            public void actionPerformed(ActionEvent e){
+                LoadTemplate loadedtmp = new LoadTemplate();
+                //TO DO pop-up me entry file path
+                loadedtmp.create("")
+            }
+        });
         f.setVisible(true);
         final JButton exitButton = new JButton("Click to exit");
         f.getContentPane().add(BorderLayout.SOUTH, exitButton);
