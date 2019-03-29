@@ -3,6 +3,8 @@ import java.util.Scanner;
 
 public class LatexEditor{
      public static void main(String[] args) {
+        Controller cont = new Controller();
+        cont.startControlling();
         /*System.out.println("Please give a number to create a specific LaTeX document");
         System.out.println("If any other input is given then an empty document will be created");
         System.out.println("- 1 for a report template");
@@ -29,10 +31,10 @@ public class LatexEditor{
         } else {
             EmptyTemplate template = new EmptyTemplate();
             template.createTemplate();
-        }*/
+        }
         UICreator userInterface = new UICreator();
-        userInterface.createUI();
-        /*OSDetector operatingSystemDetect = new OSDetector();         anoigei to latex file mesa sto vsc
+        userInterface.createFirstUI();
+        OSDetector operatingSystemDetect = new OSDetector();         anoigei to latex file mesa sto vsc
         operatingSystemDetect.openFile();*/
         //in.close();
     }
