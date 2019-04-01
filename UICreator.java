@@ -139,6 +139,9 @@ public class UICreator{
         JMenu file = new JMenu("File");
         mb.add(file);
         JMenuItem save = new JMenuItem("Save");
+        
+
+        
         /*
         try {
             File dest = new FileWriter("template.tex");
@@ -153,10 +156,23 @@ public class UICreator{
         file.add(save);
         JMenuItem load = new JMenuItem("Load");
         file.add(load);
-        JMenu edit = new JMenu("Edit");
-        mb.add(edit);
+        
         JMenuItem undo = new JMenuItem("Undo");
-        edit.add(undo);
+        file.add(undo);
+         //!!!!!!!!!!!!!!!!US_3!!!!!!!!!!!!!!!!!!!!!
+        JMenu addCommand = new JMenu("Add Command");
+        mb.add(addCommand);
+        JMenuItem addChapter = new JMenuItem("Add Chapter");
+        addCommand.add(addChapter);
+        JMenuItem addSubsection = new JMenuItem("Add Subsection");
+        addCommand.add(addSubsection);
+        JMenuItem addSubsubsection = new JMenuItem("Add subsubsection");
+        addCommand.add(addSubsubsection);
+        JMenuItem addEnumerationList = new JMenuItem("Add enumeration list");
+        addCommand.add(addEnumerationList);
+        JMenuItem addTable = new JMenuItem("Add a table");
+        addCommand.add(addTable);
+
         f.setJMenuBar(mb);
         final JTextArea textArea = new JTextArea(200, 400);
         f.getContentPane().add(BorderLayout.CENTER, textArea);
@@ -165,8 +181,9 @@ public class UICreator{
         save.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 try {
+                    String filepath = getTextInput();
                     FileWriter dest;
-                    dest = new FileWriter("tost.tex");
+                    dest = new FileWriter(filepath+".tex");
                     dest.write(textArea.getText());
                     dest.close();
                     } catch (FileNotFoundException err) {
@@ -176,11 +193,38 @@ public class UICreator{
                     }                
             }
         });
+        
+        //!!!!!!!!!!!!!!!!!!!!!!!!!US_3!!!!!!!!!!!!!!!!!!!!!!
+        addCommand.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+
+            }
+        });
+        
         load.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 LoadTemplate loadedtmp = new LoadTemplate();
                 //TO DO pop-up me entry file path
-                
+                String filepath = getTextInput();
+                BufferedReader src;
+                String fileData="";
+                String line="";
+                try {
+                    src = new BufferedReader(new FileReader(filepath));
+                    line=src.readLine();
+                    while (line != null) {
+                        System.out.println(line);
+                        fileData+=line+"\n";
+                        line=src.readLine();
+                    }
+                    src.close();
+                } catch (FileNotFoundException err) {
+
+                } catch (IOException err) {
+
+                }
+                textArea.setText("");
+                textArea.append(fileData);
                 //loadedtmp.createTemplate();
             }
         });
@@ -196,5 +240,65 @@ public class UICreator{
 
             }
         });        
+    }
+
+    public String getTextInput(){
+        String arxeio;
+        arxeio = JOptionPane.showInputDialog("give file path and/or name");
+        String filepath = arxeio;
+        /*BufferedReader src;
+        String fileData="";
+        String line="";
+        try {
+            src = new BufferedReader(filepath);
+            line=src.readLine();
+            while (line != null) {
+                fileData+=line+"\n";
+                line=src.readLine();
+            }
+            src.close();
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }*/
+        return filepath;
+
+
+
+
+
+
+
+
+        /*final String newline = "\n";
+        JFrame frame = new JFrame("TextDemo");
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JTextField textField = new JTextField(20);
+ 
+        JTextArea textArea = new JTextArea(5, 20);
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+ 
+        String text = textField.getText();
+        textArea.append(text + newline);
+        textField.selectAll();
+        textField.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                String text = textField.getText();
+                textArea.append(text + newline);
+                textField.selectAll();
+                textArea.setCaretPosition(textArea.getDocument().getLength());
+            }
+
+        });
+        frame.add(textArea, textField);
+        frame.pack();
+        frame.setVisible(true);
+
+        textArea.setCaretPosition(textArea.getDocument().getLength());
+
+        return newline;*/
     }
 }
