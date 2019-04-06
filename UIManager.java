@@ -4,6 +4,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.JTextArea;
+import javax.swing.event.DocumentListener;
 
 
 public class UIManager{
@@ -127,22 +128,9 @@ public class UIManager{
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final JTextArea textArea = new JTextArea(200, 400);
-        textArea.getDocument().addDocumentListener(new MyDocumentListener()){
-            public void changedUpdate(javax.swing.event.DocumentEvent e){
-                JOptionPane.showMessageDialog(null,"Cant put Section in this Template");
-            }
-        });
-       /* public void insertUpdate(javax.swing.event.DocumentEvent e){
-
-        }
-        public void removeUpdate(javax.swing.event.DocumentEvent e){
-
-        }*/
-        /*textArea.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                JOptionPane.showMessageDialog(null,"Cant put Section in this Template");
-            }
-        });*/
+        textArea.getDocument().addDocumentListener(new MyDocumentListener());
+       
+    
         f.getContentPane().add(BorderLayout.CENTER, textArea);
         textArea.append(latexString);
         textArea.setCaretPosition(textArea.getDocument().getLength());
