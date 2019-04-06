@@ -32,7 +32,7 @@ public class LatexEditor{
             EmptyTemplate template = new EmptyTemplate();
             template.createTemplate();
         }
-        UICreator userInterface = new UICreator();
+        UIManager userInterface = new UIManager();
         userInterface.createFirstUI();
         OSDetector operatingSystemDetect = new OSDetector();         anoigei to latex file mesa sto vsc
         operatingSystemDetect.openFile();*/
