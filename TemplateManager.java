@@ -10,18 +10,14 @@ class ReportTemplate implements TemplateManager{
         String latexString="";
         try {
             BufferedReader src;
-            FileWriter dest;
             String line="";
-            src = new BufferedReader(new FileReader("temp1.txt"));
-            dest = new FileWriter("template.tex");
+            src = new BufferedReader(new FileReader("temp1.tex"));
             line=src.readLine();
             while (line != null) {
-                dest.write(line+"\n");
                 latexString+=line+"\n";
                 line=src.readLine();
             }
             src.close();
-            dest.close();
         } catch (FileNotFoundException e) {
 
         } catch (IOException e) {
@@ -38,18 +34,14 @@ class BookTemplate implements TemplateManager{
         String latexString="";
         try {
             BufferedReader src;
-            FileWriter dest;
             String line="";
-            src = new BufferedReader(new FileReader("temp2.txt"));
-            dest = new FileWriter("template.tex");
+            src = new BufferedReader(new FileReader("temp2.tex"));
             line=src.readLine();
             while (line != null) {
-                dest.write(line+"\n");
                 latexString+=line+"\n";
                 line=src.readLine();
             }
             src.close();
-            dest.close();
         } catch (FileNotFoundException e) {
 
         } catch (IOException e) {
@@ -69,18 +61,14 @@ class ArticleTemplate implements TemplateManager{
         try {
             System.out.print("0");
             BufferedReader src;
-            FileWriter dest;
             String line="";
-            src = new BufferedReader(new FileReader("temp3.txt"));
-            dest = new FileWriter("template.tex");
+            src = new BufferedReader(new FileReader("temp3.tex"));
             line=src.readLine();
             while (line != null) {
-                dest.write(line+"\n");
                 latexString+=line+"\n";
                 line=src.readLine();
             }
             src.close();
-            dest.close();
         } catch (FileNotFoundException e) {
 
         } catch (IOException e) {
@@ -99,18 +87,14 @@ class LetterTemplate implements TemplateManager{
         String latexString="";
         try {
             BufferedReader src;
-            FileWriter dest;
             String line="";
-            src = new BufferedReader(new FileReader("temp4.txt"));
-            dest = new FileWriter("template.tex");
+            src = new BufferedReader(new FileReader("temp4.tex"));
             line=src.readLine();
             while (line != null) {
-                dest.write(line+"\n");
                 latexString+=line+"\n";
                 line=src.readLine();
             }
             src.close();
-            dest.close();
         } catch (FileNotFoundException e) {
 
         } catch (IOException e) {
@@ -127,21 +111,6 @@ class LetterTemplate implements TemplateManager{
 class EmptyTemplate implements TemplateManager{
     public String createTemplate(){
         String latexString="";
-        File dest = new File("template.txt");
-        if (dest.exists()) {
-            dest.delete();     
-        }
-
-        try {
-            FileWriter fin;
-            fin = new FileWriter("template.tex");
-            
-            fin.close();
-        } catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
-
-        }
         return latexString;
     }
 
@@ -156,18 +125,14 @@ class LoadTemplate implements TemplateManager{
         try {
             System.out.print("0");
             BufferedReader src;
-            FileWriter dest;
             String line="";
             src = new BufferedReader(new FileReader(inputFile));
-            dest = new FileWriter("template.tex");
             line=src.readLine();
             while (line != null) {
-                dest.write(line+"\n");
                 latexString+=line+"\n";
                 line=src.readLine();
             }
             src.close();
-            dest.close();
         } catch (FileNotFoundException e) {
 
         } catch (IOException e) {
