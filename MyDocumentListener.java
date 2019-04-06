@@ -17,6 +17,6 @@ public class MyDocumentListener implements  DocumentListener{
         updateLog();
     }
     public void updateLog(){
-        System.out.println("Doulevei");
+        //System.out.println("Doulevei");
     }
 }

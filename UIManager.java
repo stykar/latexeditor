@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.awt.desktop.FilesEvent;
 import java.io.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.JTextArea;
+import javax.swing.filechooser.*;
 import javax.swing.event.DocumentListener;
 
 
@@ -19,13 +21,7 @@ public class UIManager{
         JLabel lab = new JLabel("Choose Template:");
         String latexString="";
 
-        /* final JTextArea textArea = new JTextArea(200, 400);
-        f.getContentPane().add(BorderLayout.CENTER, textArea);
-        textArea.append("Please give a number to create a specific LaTeX document \n"
-            +"If any other input is given then an empty document will be created\n"
-            +"- 1 for a report template\n- 2 for a book template\n"
-            +"- 3 for an article template\n- 4 for a letter template\nInput:");
-        textArea.setCaretPosition(textArea.getDocument().getLength());*/
+
 
         JButton tmp1Button = new JButton("Report Template");
         JButton tmp2Button = new JButton("Book Template");
@@ -140,9 +136,16 @@ public class UIManager{
         JMenuItem save = new JMenuItem("Save");
         file.add(save);
         save.addActionListener(new ActionListener(){
+            String filepath;
             public void actionPerformed(ActionEvent e){
+                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                int returnValue = jfc.showSaveDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION){
+                    File selectedFile = jfc.getSelectedFile();
+                    filepath = selectedFile.getAbsolutePath();
+                }
                 try {
-                    String filepath = getTextInput();
+
                     FileWriter dest;
                     dest = new FileWriter(filepath+".tex");
                     dest.write(textArea.getText());
@@ -157,10 +160,20 @@ public class UIManager{
         JMenuItem load = new JMenuItem("Load");
         file.add(load);
         load.addActionListener(new ActionListener(){
+            String filepath;
             public void actionPerformed(ActionEvent e){
-                LoadTemplate loadedtmp = new LoadTemplate();
-                //TO DO pop-up me entry file path
-                String filepath = getTextInput();
+
+                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                jfc.setDialogTitle("Select a LaTeX File");
+                jfc.setAcceptAllFileFilterUsed(false);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("LaTeX Files", "tex");
+                jfc.addChoosableFileFilter(filter);
+                int returnValue = jfc.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION){
+                    File selectedFile = jfc.getSelectedFile();
+                    filepath = selectedFile.getAbsolutePath();
+                }
+
                 BufferedReader src;
                 String fileData="";
                 String line="";
