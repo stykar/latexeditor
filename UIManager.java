@@ -1,17 +1,18 @@
 import java.awt.*;
-import java.awt.desktop.FilesEvent;
 import java.io.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.JTextArea;
-import javax.swing.filechooser.*;
-import javax.swing.event.DocumentListener;
 
 
 public class UIManager{
 
-    public static void createFirstUI() {
+    private Controller controller;
+    private String latexString="";
+
+    public void createFirstUI() {
+        System.out.println("hi");
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
         f.setLocation(300,200);
@@ -19,9 +20,14 @@ public class UIManager{
 
         JPanel p = new JPanel(new GridBagLayout());
         JLabel lab = new JLabel("Choose Template:");
-        String latexString="";
 
-
+        /* final JTextArea textArea = new JTextArea(200, 400);
+        f.getContentPane().add(BorderLayout.CENTER, textArea);
+        textArea.append("Please give a number to create a specific LaTeX document \n"
+            +"If any other input is given then an empty document will be created\n"
+            +"- 1 for a report template\n- 2 for a book template\n"
+            +"- 3 for an article template\n- 4 for a letter template\nInput:");
+        textArea.setCaretPosition(textArea.getDocument().getLength());*/
 
         JButton tmp1Button = new JButton("Report Template");
         JButton tmp2Button = new JButton("Book Template");
@@ -41,11 +47,7 @@ public class UIManager{
         tmp1Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e1) {
-                String latexString;
-                ReportTemplate template = new ReportTemplate();
-                latexString = template.createTemplate();
-                UIManager ui2 = new UIManager();
-                ui2.createSecondUI(latexString);
+                controller.reportTemplatePressed();
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
             }
         });
@@ -53,25 +55,15 @@ public class UIManager{
         tmp2Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e2){
-                String latexString;
-                BookTemplate template = new BookTemplate();
-                latexString = template.createTemplate();
-                //JOptionPane.showMessageDialog(null,"Created Book Template");
-                UIManager ui2 = new UIManager();
-                ui2.createSecondUI(latexString);
-                f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
+                controller.bookTemplatePressed();
+                f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));              
             }
         });
 
         tmp3Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e3){
-                String latexString;
-                ArticleTemplate template = new ArticleTemplate();
-                latexString = template.createTemplate();
-                //JOptionPane.showMessageDialog(null,"Created Article Template");
-                UIManager ui2 = new UIManager();
-                ui2.createSecondUI(latexString);
+                controller.articleTemplatePressed();
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         });  
@@ -79,25 +71,15 @@ public class UIManager{
         tmp4Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e4){
-                String latexString;
-                LetterTemplate template = new LetterTemplate();
-                latexString = template.createTemplate();
-                //JOptionPane.showMessageDialog(null,"Created Letter Template");
-                UIManager ui2 = new UIManager();
-                ui2.createSecondUI(latexString);
-                f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
+                controller.letterTemplatePressed();
+                f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));              
             }
         }); 
 
         tmp5Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e5){
-                String latexString;
-                EmptyTemplate template = new EmptyTemplate();
-                latexString = template.createTemplate();
-                //JOptionPane.showMessageDialog(null,"Created Empty Template");
-                UIManager ui2 = new UIManager();
-                ui2.createSecondUI(latexString);
+                controller.emptyTemplatePressed();
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         });         
@@ -113,7 +95,6 @@ public class UIManager{
 
             }
         });
-
         f.setVisible(true);
     }
 
@@ -124,9 +105,18 @@ public class UIManager{
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final JTextArea textArea = new JTextArea(200, 400);
-        textArea.getDocument().addDocumentListener(new MyDocumentListener());
-       
-    
+        
+       /* public void insertUpdate(javax.swing.event.DocumentEvent e){
+
+        }
+        public void removeUpdate(javax.swing.event.DocumentEvent e){
+
+        }*/
+        /*textArea.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                JOptionPane.showMessageDialog(null,"Cant put Section in this Template");
+            }
+        });*/
         f.getContentPane().add(BorderLayout.CENTER, textArea);
         textArea.append(latexString);
         textArea.setCaretPosition(textArea.getDocument().getLength());
@@ -136,16 +126,9 @@ public class UIManager{
         JMenuItem save = new JMenuItem("Save");
         file.add(save);
         save.addActionListener(new ActionListener(){
-            String filepath;
             public void actionPerformed(ActionEvent e){
-                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                int returnValue = jfc.showSaveDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION){
-                    File selectedFile = jfc.getSelectedFile();
-                    filepath = selectedFile.getAbsolutePath();
-                }
                 try {
-
+                    String filepath = getTextInput();
                     FileWriter dest;
                     dest = new FileWriter(filepath+".tex");
                     dest.write(textArea.getText());
@@ -160,20 +143,10 @@ public class UIManager{
         JMenuItem load = new JMenuItem("Load");
         file.add(load);
         load.addActionListener(new ActionListener(){
-            String filepath;
             public void actionPerformed(ActionEvent e){
-
-                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                jfc.setDialogTitle("Select a LaTeX File");
-                jfc.setAcceptAllFileFilterUsed(false);
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("LaTeX Files", "tex");
-                jfc.addChoosableFileFilter(filter);
-                int returnValue = jfc.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION){
-                    File selectedFile = jfc.getSelectedFile();
-                    filepath = selectedFile.getAbsolutePath();
-                }
-
+                LoadTemplate loadedtmp = new LoadTemplate();
+                //TO DO pop-up me entry file path
+                String filepath = getTextInput();
                 BufferedReader src;
                 String fileData="";
                 String line="";
@@ -317,5 +290,19 @@ public class UIManager{
         arxeio = JOptionPane.showInputDialog("give file path and/or name");
         String filepath = arxeio;
         return filepath;
+    }
+
+    
+    //constructors,mutators
+    public void setLatexString(String toString){
+        latexString=toString;
+    }
+
+    public String getLatexString(){
+        return latexString;
+    }
+
+    public UIManager(Controller c){
+        this.controller=c;
     }
 }

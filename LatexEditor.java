@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class LatexEditor{
      public static void main(String[] args) {
         Controller cont = new Controller();
-        cont.startControlling();
+        UIManager ui = new UIManager(cont);
+        cont.startControlling(ui);
     }
 }
