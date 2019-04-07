@@ -1,27 +1,28 @@
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
+import java.awt.*;
+import java.awt.desktop.FilesEvent;
 import java.io.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+import javax.swing.JTextArea;
+import javax.swing.filechooser.*;
 
 public class Controller{
-
     private UIManager ui;
 
     public void startControlling(UIManager userInterface){
-        this.ui=userInterface;
+        this.ui = userInterface;
         userInterface.createFirstUI();
     }
-
     public void createSecUI(String input){
         ui.createSecondUI(input);
     }
-
     public void reportTemplatePressed(){
         String latexString;
         ReportTemplate template = new ReportTemplate();
         latexString = template.createTemplate();
         createSecUI(latexString);
     }
-
     public void bookTemplatePressed(){
         String latexString;
         BookTemplate template = new BookTemplate();
@@ -29,7 +30,6 @@ public class Controller{
         //JOptionPane.showMessageDialog(null,"Created Book Template");
         createSecUI(latexString);
     }
-
     public void articleTemplatePressed(){
         String latexString;
         ArticleTemplate template = new ArticleTemplate();
@@ -55,21 +55,36 @@ public class Controller{
     }
 
     public void saveButtonPressed(JTextArea input){
+        String filepath="";
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int returnValue = jfc.showSaveDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION){
+            File selectedFile = jfc.getSelectedFile();
+            filepath = selectedFile.getAbsolutePath();
+        }
         try {
-            String filepath = ui.getTextInput();
             FileWriter dest;
             dest = new FileWriter(filepath+".tex");
             dest.write(input.getText());
             dest.close();
-        } catch (FileNotFoundException err) {
-
-        } catch (IOException err) {
-
-        } 
+        }
+        catch (FileNotFoundException err) {} 
+        catch (IOException err) {} 
     }
 
     public void loadButtonPressed(JTextArea input){
-        String filepath = ui.getTextInput();
+        String filepath="";
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        jfc.setDialogTitle("Select a LaTeX File");
+        jfc.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("LaTeX Files", "tex");
+        jfc.addChoosableFileFilter(filter);
+        int returnValue = jfc.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION){
+            File selectedFile = jfc.getSelectedFile();
+            filepath = selectedFile.getAbsolutePath();
+        }
+
         BufferedReader src;
         String fileData="";
         String line="";
@@ -88,6 +103,7 @@ public class Controller{
         }
         input.setText("");
         input.append(fileData);
+        //loadedtmp.createTemplate();
     }
 
     public void chapterButtonPressed(JTextArea input){
@@ -149,5 +165,6 @@ public class Controller{
                 +"\\caption{....}\\label{...}"
                 +"\\end{figure}", input.getCaretPosition());
     }
+
 
 }

@@ -1,13 +1,15 @@
 import java.awt.*;
+import java.awt.desktop.FilesEvent;
 import java.io.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.JTextArea;
+import javax.swing.filechooser.*;
+import javax.swing.event.DocumentListener;
 
 
 public class UIManager{
-
     private Controller controller;
     private String latexString="";
 
@@ -20,13 +22,7 @@ public class UIManager{
         JPanel p = new JPanel(new GridBagLayout());
         JLabel lab = new JLabel("Choose Template:");
 
-        /* final JTextArea textArea = new JTextArea(200, 400);
-        f.getContentPane().add(BorderLayout.CENTER, textArea);
-        textArea.append("Please give a number to create a specific LaTeX document \n"
-            +"If any other input is given then an empty document will be created\n"
-            +"- 1 for a report template\n- 2 for a book template\n"
-            +"- 3 for an article template\n- 4 for a letter template\nInput:");
-        textArea.setCaretPosition(textArea.getDocument().getLength());*/
+
 
         JButton tmp1Button = new JButton("Report Template");
         JButton tmp2Button = new JButton("Book Template");
@@ -55,7 +51,7 @@ public class UIManager{
 
             public void actionPerformed(ActionEvent e2){
                 controller.bookTemplatePressed();
-                f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));              
+                f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         });
 
@@ -71,7 +67,7 @@ public class UIManager{
 
             public void actionPerformed(ActionEvent e4){
                 controller.letterTemplatePressed();
-                f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));              
+                f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         }); 
 
@@ -94,6 +90,7 @@ public class UIManager{
 
             }
         });
+
         f.setVisible(true);
     }
 
@@ -104,18 +101,9 @@ public class UIManager{
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final JTextArea textArea = new JTextArea(200, 400);
-        
-       /* public void insertUpdate(javax.swing.event.DocumentEvent e){
-
-        }
-        public void removeUpdate(javax.swing.event.DocumentEvent e){
-
-        }*/
-        /*textArea.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                JOptionPane.showMessageDialog(null,"Cant put Section in this Template");
-            }
-        });*/
+        textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea));
+       
+    
         f.getContentPane().add(BorderLayout.CENTER, textArea);
         textArea.append(latexString);
         textArea.setCaretPosition(textArea.getDocument().getLength());
@@ -126,14 +114,16 @@ public class UIManager{
         file.add(save);
         save.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                controller.saveButtonPressed(textArea);               
+                controller.saveButtonPressed(textArea);                
             }
         });
         JMenuItem load = new JMenuItem("Load");
         file.add(load);
         load.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+
                 controller.loadButtonPressed(textArea);
+                //loadedtmp.createTemplate();
             }
         });
         
@@ -189,6 +179,7 @@ public class UIManager{
                 controller.enumerateButtonPressed(textArea);
             }
         });
+
         JMenuItem addTable = new JMenuItem("Add Table");
         addCommand.add(addTable);
         addTable.addActionListener(new ActionListener(){
@@ -196,18 +187,21 @@ public class UIManager{
                 controller.tableButtonPressed(textArea);
             }
         });
-        JMenuItem addFigure = new JMenuItem("Add Figure");
+
+       JMenuItem addFigure = new JMenuItem("Add Figure");
         addCommand.add(addFigure);
         addFigure.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 controller.figureButtonPressed(textArea);
             }
         });
+
         f.setJMenuBar(mb);
         
         
         addCommand.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+
             }
         });
         
@@ -232,8 +226,6 @@ public class UIManager{
         String filepath = arxeio;
         return filepath;
     }
-
-    //constructors,mutators
     public void setLatexString(String toString){
         latexString=toString;
     }
