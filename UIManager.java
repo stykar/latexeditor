@@ -12,7 +12,6 @@ public class UIManager{
     private String latexString="";
 
     public void createFirstUI() {
-        System.out.println("hi");
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
         f.setLocation(300,200);
@@ -127,45 +126,14 @@ public class UIManager{
         file.add(save);
         save.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                try {
-                    String filepath = getTextInput();
-                    FileWriter dest;
-                    dest = new FileWriter(filepath+".tex");
-                    dest.write(textArea.getText());
-                    dest.close();
-                    } catch (FileNotFoundException err) {
-            
-                    } catch (IOException err) {
-            
-                    }                
+                controller.saveButtonPressed(textArea);               
             }
         });
         JMenuItem load = new JMenuItem("Load");
         file.add(load);
         load.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                LoadTemplate loadedtmp = new LoadTemplate();
-                //TO DO pop-up me entry file path
-                String filepath = getTextInput();
-                BufferedReader src;
-                String fileData="";
-                String line="";
-                try {
-                    src = new BufferedReader(new FileReader(filepath));
-                    line=src.readLine();
-                    while (line != null) {
-                        fileData+=line+"\n";
-                        line=src.readLine();
-                    }
-                    src.close();
-                } catch (FileNotFoundException err) {
-
-                } catch (IOException err) {
-
-                }
-                textArea.setText("");
-                textArea.append(fileData);
-                //loadedtmp.createTemplate();
+                controller.loadButtonPressed(textArea);
             }
         });
         
@@ -178,13 +146,7 @@ public class UIManager{
         addCommand.add(addChapter);
         addChapter.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                String checkTemplate = "{letter}";
-                String checkTemplate2 = "{article}";
-                if(latexString.contains(checkTemplate) || latexString.contains(checkTemplate2)){
-                    JOptionPane.showMessageDialog(null,"Cant put Chapter in this Template");
-                } else{
-                    textArea.insert("\\chapter{...}", textArea.getCaretPosition());
-                }
+                controller.chapterButtonPressed(textArea);
             }
         });
 
@@ -192,12 +154,7 @@ public class UIManager{
         addCommand.add(addSection);
         addSection.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                String checkTemplate = "{letter}";
-                if(latexString.contains(checkTemplate)){
-                    JOptionPane.showMessageDialog(null,"Cant put Section in this Template");
-                } else{
-                    textArea.insert("\\section{}", textArea.getCaretPosition());
-                }
+                controller.sectionButtonPressed(textArea);
             }
         });
 
@@ -205,7 +162,7 @@ public class UIManager{
         addCommand.add(addSubsection);
         addSubsection.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                textArea.insert("\\Subsection{}", textArea.getCaretPosition());
+                controller.subsectionButtonPressed(textArea);
             }
         });
 
@@ -213,7 +170,7 @@ public class UIManager{
         addCommand.add(addSubsubsection);
         addSubsubsection.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                textArea.insert("\\Subsubsection{}", textArea.getCaretPosition());
+                controller.subsubsectionButtonPressed(textArea);
             }
         });
 
@@ -221,44 +178,29 @@ public class UIManager{
         addCommand.add(addEnumerationListItemize);
         addEnumerationListItemize.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                textArea.insert("\\begin{itemize} \n"
-                                +" \\item ... \n \\item ... "
-                                +"\n \\end{itemize}", textArea.getCaretPosition());
+                controller.itemizeButtonPressed(textArea);
             }
         });
+
         JMenuItem addEnumerationListEnumerate = new JMenuItem("Add Enumeration List(enumerate)");
         addCommand.add(addEnumerationListEnumerate);
         addEnumerationListEnumerate.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                textArea.insert("\\begin{enumerate} \n"
-                                +" \\item ... \n \\item ... "
-                                +"\n \\end{enumerate}", textArea.getCaretPosition());
+                controller.enumerateButtonPressed(textArea);
             }
         });
         JMenuItem addTable = new JMenuItem("Add Table");
         addCommand.add(addTable);
         addTable.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                textArea.insert("\\begin{table} \n"
-                +"\\caption{....}\\label{...} \n"
-                +"\\begin{tabular}{|c|c|c|} \n"
-                +"  \\hline\n"
-                +"... &...&...\\ \n"
-                +"... &...&...\\ \n"
-                +"... &...&...\\ \n"
-                +"  \\hline \n"
-                +"\\end{tabular}\n"
-                +"\\end{table}", textArea.getCaretPosition());
+                controller.tableButtonPressed(textArea);
             }
         });
         JMenuItem addFigure = new JMenuItem("Add Figure");
         addCommand.add(addFigure);
         addFigure.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                textArea.insert("\\begin{figure}\n"
-                +"\\includegraphics[width=...,height=...]{...}\n"
-                +"\\caption{....}\\label{...}"
-                +"\\end{figure}", textArea.getCaretPosition());
+                controller.figureButtonPressed(textArea);
             }
         });
         f.setJMenuBar(mb);
@@ -266,7 +208,6 @@ public class UIManager{
         
         addCommand.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-
             }
         });
         
@@ -292,7 +233,6 @@ public class UIManager{
         return filepath;
     }
 
-    
     //constructors,mutators
     public void setLatexString(String toString){
         latexString=toString;
