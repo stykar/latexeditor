@@ -124,7 +124,7 @@ public class UIManager{
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final JTextArea textArea = new JTextArea(200, 400);
-        textArea.getDocument().addDocumentListener(new MyDocumentListener());
+        textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea));
        
     
         f.getContentPane().add(BorderLayout.CENTER, textArea);
