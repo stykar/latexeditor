@@ -10,8 +10,9 @@ import javax.swing.event.DocumentListener;
 
 
 public class UIManager{
-    private Controller controller;
+    private LatexEditorController controller;
     private String latexString="";
+    private Document doc;
 
     public void createFirstUI() {
         JFrame f = new JFrame("LaTeX Template");
@@ -93,8 +94,78 @@ public class UIManager{
 
         f.setVisible(true);
     }
+    public void createPopUp(){
+        String author;
+        String date;
+        String copyright;
+        String versionID;
+        String content;
+        JFrame pop = new JFrame("Inputs");
+        JButton enter = new JButton("Enter");
+        JTextField jt1 = new JTextField(30);
+        JTextField jt2 = new JTextField(30);
+        JTextField jt3 = new JTextField(30);
+        JTextField jt4 = new JTextField(30);
+        JTextField jt5 = new JTextField(30);
+        JLabel lab1 = new JLabel("author:");
+        JLabel lab2 = new JLabel("date:");
+        JLabel lab3 = new JLabel("copyright:");
+        JLabel lab4 = new JLabel("versionID:");
+        JLabel lab5 = new JLabel("content:");
+        pop.setSize(1000,600);
+        pop.setLocation(300,200);
+        pop.setVisible(true);
+        GridBagConstraints d = new GridBagConstraints();
+        d.gridx = 0;
+        d.gridy = 1;
+        pop.add(lab1);
+        pop.add(jt1);
+        d.gridx = 0;
+        d.gridy = 2;
+        pop.add(lab2);
+        pop.add(jt2);
+        d.gridx = 0;
+        d.gridy = 3;
+        pop.add(lab3);
+        pop.add(jt3);
+        d.gridx = 0;
+        d.gridy = 4;
+        pop.add(lab4);
+        pop.add(jt4);
+        d.gridx = 0;
+        d.gridy = 5;
+        pop.add(lab5);
+        pop.add(jt5);
+        d.gridx = 0;
+        d.gridy = 6;
+        pop.add(jb);
 
-    public void createSecondUI(String latexString){
+        jb.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                author= jt1.getText();
+                date= jt2.getText();
+                copyright= jt3.getText();
+                versionID= jt4.getText();
+                content= jt5.getText();
+            }
+        });
+
+
+        
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public void createSecondUI(Document doc){
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
         f.setLocation(300,200);
@@ -105,65 +176,45 @@ public class UIManager{
        
     
         f.getContentPane().add(BorderLayout.CENTER, textArea);
-        textArea.append(latexString);
+        textArea.append(doc.getContents());
         textArea.setCaretPosition(textArea.getDocument().getLength());
         JMenuBar mb = new JMenuBar();
         JMenu file = new JMenu("File");
         mb.add(file);
-        JMenuItem save = new JMenuItem("Save");
-        file.add(save);
-        save.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                controller.saveButtonPressed(textArea);                
-            }
-        });
-        JMenuItem load = new JMenuItem("Load");
-        file.add(load);
-        load.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
 
-                controller.loadButtonPressed(textArea);
-                //loadedtmp.createTemplate();
-            }
-        });
+
+
+        SaveCommand save = new SaveCommand(file);
+        save.execute(doc, textArea);
+        
+        
+        LoadCommand load = new LoadCommand(file);
+        load.execute(doc, textArea);
         
         JMenuItem undo = new JMenuItem("Undo");
         file.add(undo);
 
         JMenu addCommand = new JMenu("Add Command");
         mb.add(addCommand);
-        JMenuItem addChapter = new JMenuItem("Add Chapter");
-        addCommand.add(addChapter);
-        addChapter.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                controller.chapterButtonPressed(textArea);
-            }
-        });
 
-        JMenuItem addSection = new JMenuItem("Add Section");
-        addCommand.add(addSection);
-        addSection.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                controller.sectionButtonPressed(textArea);
-            }
-        });
+        AddChapter addChapter = new AddChapter(addCommand);
+        addChapter.execute(doc, textArea);
+        
 
-        JMenuItem addSubsection = new JMenuItem("Add Subsection");
-        addCommand.add(addSubsection);
-        addSubsection.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                controller.subsectionButtonPressed(textArea);
-            }
-        });
+        
 
-        JMenuItem addSubsubsection = new JMenuItem("Add Subsubsection");
-        addCommand.add(addSubsubsection);
-        addSubsubsection.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                controller.subsubsectionButtonPressed(textArea);
-            }
-        });
+        AddSection addSection = new AddSection(adCommand);
+        addSection.execute(doc,textArea);
+    
 
+        AddSubsection addSubsection = new AddSubsection(addCommand);
+        addSubsection.execute(doc, textArea);
+
+        AddSubSubSection addSubsubsection = new AddSubSubSection(adCommand);
+        addSubSubSecttion.execute(doc, textArea);
+    
+
+        
         JMenuItem addEnumerationListItemize = new JMenuItem("Add Enumeration List(itemize)");
         addCommand.add(addEnumerationListItemize);
         addEnumerationListItemize.addActionListener(new ActionListener(){
@@ -172,23 +223,16 @@ public class UIManager{
             }
         });
 
-        JMenuItem addEnumerationListEnumerate = new JMenuItem("Add Enumeration List(enumerate)");
-        addCommand.add(addEnumerationListEnumerate);
-        addEnumerationListEnumerate.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                controller.enumerateButtonPressed(textArea);
-            }
-        });
+        AddEnumerationListEnumerate addEnumerationListEnumerate = new AddEnumerationListEnumerate(addCommand);
+        addEnumerationListEnumerate.execute(doc, textArea);
+        
+        AddTable addTable = new AddTable(addCommand);
+        addTable.execute(doc, textArea);
 
-        JMenuItem addTable = new JMenuItem("Add Table");
-        addCommand.add(addTable);
-        addTable.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                controller.tableButtonPressed(textArea);
-            }
-        });
-
-       JMenuItem addFigure = new JMenuItem("Add Figure");
+        AddFigure addFigure = new AddFigure(addCommand);
+        addFigure.execute(doc, textArea);
+        
+        JMenuItem addFigure = new JMenuItem("Add Figure");
         addCommand.add(addFigure);
         addFigure.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -226,15 +270,8 @@ public class UIManager{
         String filepath = arxeio;
         return filepath;
     }
-    public void setLatexString(String toString){
-        latexString=toString;
-    }
 
-    public String getLatexString(){
-        return latexString;
-    }
-
-    public UIManager(Controller c){
+    public UIManager(LatexEditorController c){
         this.controller=c;
     }
 }
