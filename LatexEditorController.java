@@ -90,7 +90,7 @@ public class LatexEditorController{
         input.setText("");
         input.append(fileData);
         //loadedtmp.createTemplate();
-    }*/
+    }
 
     public void chapterButtonPressed(JTextArea input){
         String checkTemplate = "{letter}";
@@ -150,7 +150,7 @@ public class LatexEditorController{
                 +"\\includegraphics[width=...,height=...]{...}\n"
                 +"\\caption{....}\\label{...}"
                 +"\\end{figure}", input.getCaretPosition());
-    }
+    }*/
 
 
 }

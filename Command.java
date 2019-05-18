@@ -23,6 +23,7 @@ class SaveCommand implements Command{
         j.add(save);
         save.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
+                doc.setContents(input.getText());
                 doc.save();   
             }
         });
@@ -142,7 +143,7 @@ class AddSubSubSection implements Command{
     public void execute(Document doc, JTextArea input){
         JMenuItem addSubSubSection = new JMenuItem("Add Subsubsection");
         j.add(addSubSubSection);
-        j.addActionListener(new ActionListener(){
+        addSubSubSection.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 input.insert("\\Subsubsection{}", input.getCaretPosition());
             }
@@ -158,7 +159,7 @@ class AddEnumerationListItemize implements Command{
     public void execute(Document doc, JTextArea input){
         JMenuItem addEnumerationListItemize = new JMenuItem("Add Enumeration List(itemize)");
         j.add(addEnumerationListItemize);
-        j.addActionListener(new ActionListener(){
+        addEnumerationListItemize.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 input.insert("\\begin{itemize} \n"
                                 +" \\item ... \n \\item ... "

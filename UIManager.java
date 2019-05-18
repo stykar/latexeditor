@@ -95,11 +95,6 @@ public class UIManager{
         f.setVisible(true);
     }
     public void createPopUp(){
-        String author;
-        String date;
-        String copyright;
-        String versionID;
-        String content;
         JFrame pop = new JFrame("Inputs");
         JButton enter = new JButton("Enter");
         JTextField jt1 = new JTextField(30);
@@ -138,15 +133,15 @@ public class UIManager{
         pop.add(jt5);
         d.gridx = 0;
         d.gridy = 6;
-        pop.add(jb);
+        pop.add(enter);
 
-        jb.addActionListener(new ActionListener(){
+        enter.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                author= jt1.getText();
-                date= jt2.getText();
-                copyright= jt3.getText();
-                versionID= jt4.getText();
-                content= jt5.getText();
+                String author= jt1.getText();
+                String date= jt2.getText();
+                String copyright= jt3.getText();
+                String versionID= jt4.getText();
+                String content= jt5.getText();
             }
         });
 
@@ -203,25 +198,20 @@ public class UIManager{
 
         
 
-        AddSection addSection = new AddSection(adCommand);
+        AddSection addSection = new AddSection(addCommand);
         addSection.execute(doc,textArea);
     
 
         AddSubsection addSubsection = new AddSubsection(addCommand);
         addSubsection.execute(doc, textArea);
 
-        AddSubSubSection addSubsubsection = new AddSubSubSection(adCommand);
-        addSubSubSecttion.execute(doc, textArea);
+        AddSubSubSection addSubsubsection = new AddSubSubSection(addCommand);
+        addSubsubsection.execute(doc, textArea);
     
 
         
-        JMenuItem addEnumerationListItemize = new JMenuItem("Add Enumeration List(itemize)");
-        addCommand.add(addEnumerationListItemize);
-        addEnumerationListItemize.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                controller.itemizeButtonPressed(textArea);
-            }
-        });
+        AddEnumerationListItemize addEnumerationListItemize = new AddEnumerationListItemize(addCommand);
+        addEnumerationListItemize.execute(doc, textArea);
 
         AddEnumerationListEnumerate addEnumerationListEnumerate = new AddEnumerationListEnumerate(addCommand);
         addEnumerationListEnumerate.execute(doc, textArea);
@@ -231,14 +221,6 @@ public class UIManager{
 
         AddFigure addFigure = new AddFigure(addCommand);
         addFigure.execute(doc, textArea);
-        
-        JMenuItem addFigure = new JMenuItem("Add Figure");
-        addCommand.add(addFigure);
-        addFigure.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                controller.figureButtonPressed(textArea);
-            }
-        });
 
         f.setJMenuBar(mb);
         
