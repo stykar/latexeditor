@@ -43,7 +43,7 @@ public class UIManager{
         tmp1Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e1) {
-                controller.reportTemplatePressed();
+                createPopUp(0);
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
             }
         });
@@ -51,7 +51,7 @@ public class UIManager{
         tmp2Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e2){
-                controller.bookTemplatePressed();
+                createPopUp(1);
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         });
@@ -59,7 +59,7 @@ public class UIManager{
         tmp3Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e3){
-                controller.articleTemplatePressed();
+                createPopUp(2);
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         });  
@@ -67,7 +67,7 @@ public class UIManager{
         tmp4Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e4){
-                controller.letterTemplatePressed();
+                createPopUp(3);
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         }); 
@@ -75,7 +75,7 @@ public class UIManager{
         tmp5Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e5){
-                controller.emptyTemplatePressed();
+                createPopUp(4);
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         });         
@@ -94,8 +94,9 @@ public class UIManager{
 
         f.setVisible(true);
     }
-    public void createPopUp(){
+    public void createPopUp(int num){
         JFrame pop = new JFrame("Inputs");
+        JPanel poppan = new JPanel(new GridBagLayout());
         JButton enter = new JButton("Enter");
         JTextField jt1 = new JTextField(30);
         JTextField jt2 = new JTextField(30);
@@ -113,35 +114,67 @@ public class UIManager{
         GridBagConstraints d = new GridBagConstraints();
         d.gridx = 0;
         d.gridy = 1;
-        pop.add(lab1);
-        pop.add(jt1);
+        poppan.add(lab1,d);
+        d.gridx = 1;
+        d.gridy = 1;
+        poppan.add(jt1,d);
         d.gridx = 0;
         d.gridy = 2;
-        pop.add(lab2);
-        pop.add(jt2);
+        poppan.add(lab2,d);
+        d.gridx = 1;
+        d.gridy = 2;
+        poppan.add(jt2,d);
         d.gridx = 0;
         d.gridy = 3;
-        pop.add(lab3);
-        pop.add(jt3);
+        poppan.add(lab3,d);
+        d.gridx = 1;
+        d.gridy = 3;
+        poppan.add(jt3,d);
         d.gridx = 0;
         d.gridy = 4;
-        pop.add(lab4);
-        pop.add(jt4);
+        poppan.add(lab4,d);
+        d.gridx = 1;
+        d.gridy = 4;
+        poppan.add(jt4,d);
         d.gridx = 0;
         d.gridy = 5;
-        pop.add(lab5);
-        pop.add(jt5);
+        /*poppan.add(lab5,d);
+        d.gridx = 1;
+        d.gridy = 5;
+        poppan.add(jt5,d);
         d.gridx = 0;
-        d.gridy = 6;
-        pop.add(enter);
+        d.gridy = 6;*/
+        pop.add(poppan);
+        final JButton enterButton = new JButton("Enter Inputs");
+        pop.getContentPane().add(BorderLayout.SOUTH, enterButton);
 
-        enter.addActionListener(new ActionListener(){
+        enterButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 String author= jt1.getText();
                 String date= jt2.getText();
                 String copyright= jt3.getText();
                 String versionID= jt4.getText();
-                String content= jt5.getText();
+                //String content= jt5.getText();
+                if(num==0){
+                    controller.reportTemplatePressed(author, date, copyright, versionID);
+                    pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
+                }
+                else if(num==1){
+                    controller.bookTemplatePressed(author, date, copyright, versionID);
+                    pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
+                }
+                else if(num==2){
+                    controller.articleTemplatePressed(author, date, copyright, versionID);
+                    pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
+                }
+                else if(num==3){
+                    controller.letterTemplatePressed(author, date, copyright, versionID);
+                    pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
+                }
+                else{
+                    controller.emptyTemplatePressed(author, date, copyright, versionID);
+                    pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
+                }
             }
         });
 

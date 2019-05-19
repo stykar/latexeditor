@@ -8,6 +8,7 @@ import javax.swing.JTextArea;
 import javax.swing.filechooser.*;
 
 public class LatexEditorController{
+    private Document doc;
     private UIManager ui;
 
     public void startControlling(UIManager userInterface){
@@ -17,27 +18,57 @@ public class LatexEditorController{
     public void createSecUI(Document doc){
         ui.createSecondUI(doc);
     }
-    public void reportTemplatePressed(){
+    public void reportTemplatePressed(String authorst, String datest, String copyrightst, String versionIDst){
         DocumentManager dm = new DocumentManager();
-        createSecUI(dm.createDocument("Report"));
+        doc = dm.createDocument("Report");
+        doc.setAuthor(authorst);
+        doc.setDate(datest);
+        doc.setCopyright(copyrightst);
+        doc.setVersionID(versionIDst);
+        createSecUI(doc);
+        //createSecUI(dm.createDocument("Report"));
     }
-    public void bookTemplatePressed(){
+    public void bookTemplatePressed(String authorst, String datest, String copyrightst, String versionIDst){
         DocumentManager dm = new DocumentManager();
-        createSecUI(dm.createDocument("Book"));
+        doc = dm.createDocument("Book");
+        doc.setAuthor(authorst);
+        doc.setDate(datest);
+        doc.setCopyright(copyrightst);
+        doc.setVersionID(versionIDst);
+        createSecUI(doc);
+        //createSecUI(dm.createDocument("Book"));
     }
-    public void articleTemplatePressed(){
+    public void articleTemplatePressed(String authorst, String datest, String copyrightst, String versionIDst){
         DocumentManager dm = new DocumentManager();
-        createSecUI(dm.createDocument("Article"));
+        doc = dm.createDocument("Article");
+        doc.setAuthor(authorst);
+        doc.setDate(datest);
+        doc.setCopyright(copyrightst);
+        doc.setVersionID(versionIDst);
+        createSecUI(doc);
+        //createSecUI(dm.createDocument("Article"));
     }
 
-    public void letterTemplatePressed(){
+    public void letterTemplatePressed(String authorst, String datest, String copyrightst, String versionIDst){
         DocumentManager dm = new DocumentManager();
-        createSecUI(dm.createDocument("Letter"));
+        doc = dm.createDocument("Letter");
+        doc.setAuthor(authorst);
+        doc.setDate(datest);
+        doc.setCopyright(copyrightst);
+        doc.setVersionID(versionIDst);
+        createSecUI(doc);
+        //createSecUI(dm.createDocument("Letter"));
     }
 
-    public void emptyTemplatePressed(){
+    public void emptyTemplatePressed(String authorst, String datest, String copyrightst, String versionIDst){
         DocumentManager dm = new DocumentManager();
-        createSecUI(dm.createDocument("Empty"));
+        doc = dm.createDocument("Empty");
+        doc.setAuthor(authorst);
+        doc.setDate(datest);
+        doc.setCopyright(copyrightst);
+        doc.setVersionID(versionIDst);
+        createSecUI(doc);
+        //createSecUI(dm.createDocument("Empty"));
     }
 
     /*public void saveButtonPressed(JTextArea input){

@@ -11,10 +11,10 @@ public class Document{
     private String author;
     private String date;
     private String copyright;
-    private int versionID;
+    private String versionID;
     private String content;
 
-    public Document(String author,String date, String copyright, int versionID, String content){
+    public Document(String author,String date, String copyright, String versionID, String content){
         this.author=author;
         this.date=date;
         this.copyright=copyright;
@@ -51,5 +51,17 @@ public class Document{
 
     public String getContents(){
         return content;
+    }
+    public void setAuthor(String s){
+        this.author=s;
+    }
+    public void setDate(String s){
+        this.date=s;
+    }
+    public void setCopyright(String s){
+        this.copyright=s;
+    }
+    public void setVersionID(String s){
+        this.versionID=s;
     }
 }
