@@ -1,10 +1,5 @@
 import java.io.*;
-import java.awt.*;
-import java.awt.desktop.FilesEvent;
-import java.awt.event.*;
-
 import javax.swing.*;
-import javax.swing.JTextArea;
 import javax.swing.filechooser.*;
 
 public class Document{
@@ -13,6 +8,7 @@ public class Document{
     private String copyright;
     private String versionID;
     private String content;
+    private VersionsManager versionsManager;
 
     public Document(String author,String date, String copyright, String versionID, String content){
         this.author=author;
@@ -20,8 +16,11 @@ public class Document{
         this.copyright=copyright;
         this.versionID=versionID;
         this.content=content;
+        VolatileVersionsStrategy vvs = new VolatileVersionsStrategy();
+        VersionsManager vm = new VersionsManager(vvs);
+        this.versionsManager = vm;
     }
-
+    // TODO
     /*public Document clone(){
         Document clone = new Document(author, date, copyright, versionID+1, content);
         return clone;
@@ -44,24 +43,43 @@ public class Document{
         catch (FileNotFoundException err) {} 
         catch (IOException err) {} 
     }
-    
-    public void setContents(String s){
-        this.content=s;
-    }
 
-    public String getContents(){
-        return content;
-    }
     public void setAuthor(String s){
         this.author=s;
     }
+    public String getAuthor(){
+        return author;
+    }
+
     public void setDate(String s){
         this.date=s;
     }
+    public String getDate(){
+        return date;
+    }
+
     public void setCopyright(String s){
         this.copyright=s;
     }
+    public String getCopyright(){
+        return copyright;
+    }
+
     public void setVersionID(String s){
         this.versionID=s;
+    }
+    public String getVersionID(){
+        return versionID;
+    }
+
+    public void setContents(String s){
+        this.content=s;
+    }
+    public String getContents(){
+        return content;
+    }
+
+    public VersionsManager getVersionsManager(){
+        return versionsManager;
     }
 }

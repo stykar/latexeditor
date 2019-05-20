@@ -1,32 +1,33 @@
 import javax.swing.event.*;
-import java.awt.*;
-import java.io.*;
 import java.util.ArrayList;
-import java.awt.event.*;
-
-import javax.swing.*;
 import javax.swing.JTextArea;
 
 public class MyDocumentListener implements  DocumentListener{
     private String keimeno;
+    private Document doc;
+    private VersionsManager manager;
     private ArrayList<String> instances = new ArrayList<>();
-    //private int counter = 0;
-    public MyDocumentListener(JTextArea str){
-        this.keimeno=str.getText();
+    public MyDocumentListener(Document doc){
+        this.keimeno = doc.getContents();
+        this.doc = doc;
     }
     public void insertUpdate(DocumentEvent e){
+        manager.getStrategy().putVersion(doc);
         System.out.println("mpike1");
         updateLog();
     }
     public void removeUpdate(DocumentEvent e){
+        manager.getStrategy().putVersion(doc);
         System.out.println("mpike2");
         updateLog();
     }
     public void changedUpdate(DocumentEvent e){
+        manager.getStrategy().putVersion(doc);
         System.out.println("mpike3");
         updateLog();
     }
     public void updateLog(){
+        manager.getStrategy().putVersion(doc);
         System.out.println("mpike4");
         if(instances.size()==0){
             instances.add(keimeno);

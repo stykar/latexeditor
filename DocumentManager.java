@@ -5,7 +5,7 @@ public class DocumentManager{
 
     }
 
-    public Document createDocument(String s){
+    public Document createDocument(String s ){
         if(s.equals("Report")){
             String latexString="";
             try {
@@ -23,7 +23,7 @@ public class DocumentManager{
             } catch (IOException e) {
 
             }
-            Document c = new Document("author1","currentdate","C","1",latexString);
+            Document c = new Document("","","","",latexString);
             return c;
         }else if(s.equals("Book")){
             String latexString="";
@@ -42,7 +42,7 @@ public class DocumentManager{
             } catch (IOException e) {
 
             }
-            Document c = new Document("author1","currentdate","C","1",latexString);
+            Document c = new Document("","","","",latexString);
             return c;
         }else if(s.equals("Article")){
             String latexString="";
@@ -62,7 +62,7 @@ public class DocumentManager{
             } catch (IOException e) {
 
             }
-            Document c = new Document("author1","currentdate","C","1",latexString);
+            Document c = new Document("","","","",latexString);
             return c;
         }else if(s.equals("Letter")){
             String latexString="";
@@ -81,11 +81,10 @@ public class DocumentManager{
             } catch (IOException e) {
 
             }
-            Document c = new Document("author1","currentdate","C","1",latexString);
+            Document c = new Document("","","","",latexString);
             return c;
         }else{
-            String latexString="";
-            Document c = new Document("author1","currentdate","C","1",latexString);
+            Document c = new Document("","","","","");
             return c;
         }
     }

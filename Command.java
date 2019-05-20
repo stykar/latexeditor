@@ -1,13 +1,8 @@
-import java.awt.*;
-import java.awt.desktop.FilesEvent;
 import java.io.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.*;
-
-import javax.swing.event.DocumentListener;
 
 public interface Command{
     public void execute(Document d, JTextArea jta);
@@ -228,5 +223,55 @@ class AddFigure implements Command{
                 +"\\end{figure}", input.getCaretPosition());
             }
         });
+    }
+}
+
+class UndoCommand implements Command{
+    private JMenu j;
+    public UndoCommand(JMenu j){
+        this.j=j;
+    }
+    public void execute(Document d, JTextArea input){
+        d.getVersionsManager().rollbackToPreviousVersion(d);
+        input.setText(d.getContents());
+    }
+}
+
+class StableVersionStrategyCommand implements Command{
+    private JMenu j;
+    public StableVersionStrategyCommand(JMenu j){
+        this.j=j;
+    }
+
+    public void execute(Document d, JTextArea input){
+        StableVersionsStrategy svs = new StableVersionsStrategy();
+        svs.setEntireHistory(d.getVersionsManager().getStrategy().getEntireHistory());
+        d.getVersionsManager().setStrategy(svs);
+        d.getVersionsManager().enable();
+    }
+}
+
+class VolatileVersionStrategyCommand implements Command{
+    private JMenu j;
+    public VolatileVersionStrategyCommand(JMenu j){
+        this.j=j;
+    }
+
+    public void execute(Document d, JTextArea input){
+        VolatileVersionsStrategy vvs = new VolatileVersionsStrategy();
+        vvs.setEntireHistory(d.getVersionsManager().getStrategy().getEntireHistory());
+        d.getVersionsManager().setStrategy(vvs);
+        d.getVersionsManager().enable();
+    }
+}
+
+class DisableStrategyCommand implements Command{
+    private JMenu j;
+    public DisableStrategyCommand(JMenu j){
+        this.j=j;
+    }
+
+    public void execute(Document d, JTextArea input){
+        d.getVersionsManager().disable();
     }
 }

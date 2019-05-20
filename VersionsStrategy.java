@@ -1,8 +1,5 @@
-import java.awt.*;
 import java.util.List;
-import java.awt.desktop.FilesEvent;
 import java.io.*;
-import java.awt.event.*;
 
 public interface VersionsStrategy {
     public void putVersion(Document d);
@@ -70,6 +67,9 @@ class StableVersionsStrategy implements VersionsStrategy {
         return this.docList.get(this.docList.size());
     }
     public void setEntireHistory(List<Document> dList){
+        for(int i=0;i<this.fileList.size();i++){
+            this.fileList.get(i).delete();
+        }
         this.docList=dList;
         this.fileList.clear();
         for(int i=0;i<this.docList.size();i++){

@@ -1,12 +1,8 @@
 import java.awt.*;
-import java.awt.desktop.FilesEvent;
-import java.io.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.JTextArea;
-import javax.swing.filechooser.*;
-import javax.swing.event.DocumentListener;
 
 
 public class UIManager{
@@ -18,7 +14,6 @@ public class UIManager{
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
         f.setLocation(300,200);
-        //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel p = new JPanel(new GridBagLayout());
         JLabel lab = new JLabel("Choose Template:");
@@ -154,7 +149,6 @@ public class UIManager{
                 String date= jt2.getText();
                 String copyright= jt3.getText();
                 String versionID= jt4.getText();
-                //String content= jt5.getText();
                 if(num==0){
                     controller.reportTemplatePressed(author, date, copyright, versionID);
                     pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
@@ -185,14 +179,6 @@ public class UIManager{
 
 
 
-
-
-
-
-
-
-
-
     public void createSecondUI(Document doc){
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
@@ -200,7 +186,7 @@ public class UIManager{
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final JTextArea textArea = new JTextArea(200, 400);
-        textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea));
+        //textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea));
        
     
         f.getContentPane().add(BorderLayout.CENTER, textArea);
@@ -208,28 +194,33 @@ public class UIManager{
         textArea.setCaretPosition(textArea.getDocument().getLength());
         JMenuBar mb = new JMenuBar();
         JMenu file = new JMenu("File");
+        JMenu vt = new JMenu("Version Tracking");
         mb.add(file);
+        mb.add(vt);
 
+        StableVersionStrategyCommand svsc = new StableVersionStrategyCommand(vt);
+        svsc.execute(doc, textArea);
 
+        VolatileVersionStrategyCommand vvsc = new VolatileVersionStrategyCommand(vt);
+        vvsc.execute(doc, textArea);
+        
+        DisableStrategyCommand dsc = new DisableStrategyCommand(vt);
+        dsc.execute(doc, textArea);
 
         SaveCommand save = new SaveCommand(file);
         save.execute(doc, textArea);
         
-        
         LoadCommand load = new LoadCommand(file);
         load.execute(doc, textArea);
         
-        JMenuItem undo = new JMenuItem("Undo");
-        file.add(undo);
+        UndoCommand undo = new UndoCommand(file);
+        undo.execute(doc, textArea);
 
         JMenu addCommand = new JMenu("Add Command");
         mb.add(addCommand);
 
         AddChapter addChapter = new AddChapter(addCommand);
         addChapter.execute(doc, textArea);
-        
-
-        
 
         AddSection addSection = new AddSection(addCommand);
         addSection.execute(doc,textArea);
@@ -256,13 +247,6 @@ public class UIManager{
         addFigure.execute(doc, textArea);
 
         f.setJMenuBar(mb);
-        
-        
-        addCommand.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-
-            }
-        });
         
         
         f.setVisible(true);
