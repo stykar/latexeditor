@@ -182,11 +182,13 @@ public class UIManager{
         f.setLocation(300,200);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final JTextArea textArea = new JTextArea(200, 400);
+        JScrollPane scroll = new JScrollPane(textArea);
         textArea.append(doc.getContents());
         textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea,doc));
        
-    
-        f.getContentPane().add(BorderLayout.CENTER, textArea);
+        f.getContentPane().add(scroll);
+        //f.getContentPane().add(BorderLayout.CENTER, textArea);
+
         textArea.setCaretPosition(textArea.getDocument().getLength());
         JMenuBar mb = new JMenuBar();
         JMenu file = new JMenu("File");
