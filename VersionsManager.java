@@ -4,7 +4,8 @@ public class VersionsManager{
     private VersionsStrategy vs;
 
     public VersionsManager(VersionsStrategy verstr){
-        this.vs=verstr;
+        this.vs = verstr;
+        this.enabled = true;
     }
 
     public boolean isEnabled(){

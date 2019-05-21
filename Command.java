@@ -232,8 +232,14 @@ class UndoCommand implements Command{
         this.j=j;
     }
     public void execute(Document d, JTextArea input){
-        d.getVersionsManager().rollbackToPreviousVersion(d);
-        input.setText(d.getContents());
+        JMenuItem undoCommand = new JMenuItem("Undo");
+        j.add(undoCommand);
+        undoCommand.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                d.getVersionsManager().rollbackToPreviousVersion(d);
+                input.setText(d.getContents());
+            }
+        });
     }
 }
 
@@ -244,10 +250,16 @@ class StableVersionStrategyCommand implements Command{
     }
 
     public void execute(Document d, JTextArea input){
-        StableVersionsStrategy svs = new StableVersionsStrategy();
-        svs.setEntireHistory(d.getVersionsManager().getStrategy().getEntireHistory());
-        d.getVersionsManager().setStrategy(svs);
-        d.getVersionsManager().enable();
+        JMenuItem svsCommand = new JMenuItem("Stable");
+        j.add(svsCommand);
+        svsCommand.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                StableVersionsStrategy svs = new StableVersionsStrategy();
+                svs.setEntireHistory(d.getVersionsManager().getStrategy().getEntireHistory());
+                d.getVersionsManager().setStrategy(svs);
+                d.getVersionsManager().enable();
+            }
+        });
     }
 }
 
@@ -258,10 +270,16 @@ class VolatileVersionStrategyCommand implements Command{
     }
 
     public void execute(Document d, JTextArea input){
-        VolatileVersionsStrategy vvs = new VolatileVersionsStrategy();
-        vvs.setEntireHistory(d.getVersionsManager().getStrategy().getEntireHistory());
-        d.getVersionsManager().setStrategy(vvs);
-        d.getVersionsManager().enable();
+        JMenuItem vvsCommand = new JMenuItem("Volatile");
+        j.add(vvsCommand);
+        vvsCommand.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                VolatileVersionsStrategy vvs = new VolatileVersionsStrategy();
+                vvs.setEntireHistory(d.getVersionsManager().getStrategy().getEntireHistory());
+                d.getVersionsManager().setStrategy(vvs);
+                d.getVersionsManager().enable();
+            }
+        });
     }
 }
 

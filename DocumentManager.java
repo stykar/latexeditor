@@ -24,6 +24,7 @@ public class DocumentManager{
 
             }
             Document c = new Document("","","","",latexString);
+            //MyDocumentListener mdl = new MyDocumentListener(c);
             return c;
         }else if(s.equals("Book")){
             String latexString="";
@@ -43,6 +44,7 @@ public class DocumentManager{
 
             }
             Document c = new Document("","","","",latexString);
+            //MyDocumentListener mdl = new MyDocumentListener(c);
             return c;
         }else if(s.equals("Article")){
             String latexString="";
@@ -63,6 +65,7 @@ public class DocumentManager{
 
             }
             Document c = new Document("","","","",latexString);
+            //MyDocumentListener mdl = new MyDocumentListener(c);
             return c;
         }else if(s.equals("Letter")){
             String latexString="";
@@ -82,9 +85,11 @@ public class DocumentManager{
 
             }
             Document c = new Document("","","","",latexString);
+            //MyDocumentListener mdl = new MyDocumentListener(c);
             return c;
         }else{
             Document c = new Document("","","","","");
+            //MyDocumentListener mdl = new MyDocumentListener(c);
             return c;
         }
     }

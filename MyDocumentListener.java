@@ -3,40 +3,42 @@ import java.util.ArrayList;
 import javax.swing.JTextArea;
 
 public class MyDocumentListener implements  DocumentListener{
-    private String keimeno;
+    private String allText;
     private Document doc;
-    private VersionsManager manager;
+    private JTextArea area;
     private ArrayList<String> instances = new ArrayList<>();
-    public MyDocumentListener(Document doc){
-        this.keimeno = doc.getContents();
-        this.doc = doc;
+    public MyDocumentListener(JTextArea text, Document d){
+        this.area = text;
+        this.allText = text.getText();
+        this.doc = d;
     }
     public void insertUpdate(DocumentEvent e){
-        manager.getStrategy().putVersion(doc);
+        //manager.getStrategy().putVersion(doc);
         System.out.println("mpike1");
         updateLog();
     }
     public void removeUpdate(DocumentEvent e){
-        manager.getStrategy().putVersion(doc);
+        //manager.getStrategy().putVersion(doc);
         System.out.println("mpike2");
         updateLog();
     }
     public void changedUpdate(DocumentEvent e){
-        manager.getStrategy().putVersion(doc);
+        //manager.getStrategy().putVersion(doc);
         System.out.println("mpike3");
         updateLog();
     }
     public void updateLog(){
-        manager.getStrategy().putVersion(doc);
+        this.allText = area.getText();
+        doc.getVersionsManager().getStrategy().putVersion(doc);
         System.out.println("mpike4");
         if(instances.size()==0){
-            instances.add(keimeno);
+            instances.add(allText);
             //counter++;
-            //System.out.println(keimeno);
+            //System.out.println(allText);
         }
-        if(instances.get(instances.size()-1) != keimeno){
-            instances.add(keimeno);
-           //System.out.println(keimeno);
+        if(instances.get(instances.size()-1) != allText){
+            instances.add(allText);
+           //System.out.println(allText);
             //counter++;            
         }
     }

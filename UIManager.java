@@ -149,6 +149,7 @@ public class UIManager{
                 String date= jt2.getText();
                 String copyright= jt3.getText();
                 String versionID= jt4.getText();
+                System.out.println(author);
                 if(num==0){
                     controller.reportTemplatePressed(author, date, copyright, versionID);
                     pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
@@ -171,26 +172,21 @@ public class UIManager{
                 }
             }
         });
-
-
-        
-
     }
 
 
-
-    public void createSecondUI(Document doc){
+    public void createSecondUI(Document d){
+        this.doc=d;
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
         f.setLocation(300,200);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         final JTextArea textArea = new JTextArea(200, 400);
-        //textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea));
+        textArea.append(doc.getContents());
+        textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea,doc));
        
     
         f.getContentPane().add(BorderLayout.CENTER, textArea);
-        textArea.append(doc.getContents());
         textArea.setCaretPosition(textArea.getDocument().getLength());
         JMenuBar mb = new JMenuBar();
         JMenu file = new JMenu("File");
