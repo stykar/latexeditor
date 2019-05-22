@@ -1,3 +1,5 @@
+import javax.swing.JTextArea;
+
 public class VersionsManager{
 
     private boolean enabled;
@@ -36,8 +38,8 @@ public class VersionsManager{
         return vs.getVersion();
     }
 
-    public void rollbackToPreviousVersion(Document doc){
+    public void rollbackToPreviousVersion(JTextArea input){
         vs.removeVersion();
-        doc.setContents(vs.getVersion().getContents());
+        input.setText(vs.getVersion().getContents());
     }
 }

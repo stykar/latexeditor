@@ -226,27 +226,30 @@ class AddFigure implements Command{
     }
 }
 
-class UndoCommand implements Command{
+/*class UndoCommand implements Command{
     private JMenu j;
-    public UndoCommand(JMenu j){
+    private VersionsManager vm;
+    public UndoCommand(JMenu j, VersionsManager verMan){
         this.j=j;
+        this.vm=verMan;
     }
     public void execute(Document d, JTextArea input){
         JMenuItem undoCommand = new JMenuItem("Undo");
         j.add(undoCommand);
         undoCommand.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                d.getVersionsManager().rollbackToPreviousVersion(d);
-                input.setText(d.getContents());
+                vm.rollbackToPreviousVersion(input);
             }
         });
     }
-}
+}*/
 
 class StableVersionStrategyCommand implements Command{
     private JMenu j;
-    public StableVersionStrategyCommand(JMenu j){
+    private VersionsManager vm;
+    public StableVersionStrategyCommand(JMenu j, VersionsManager verMan){
         this.j=j;
+        this.vm=verMan;
     }
 
     public void execute(Document d, JTextArea input){
@@ -255,9 +258,9 @@ class StableVersionStrategyCommand implements Command{
         svsCommand.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 StableVersionsStrategy svs = new StableVersionsStrategy();
-                svs.setEntireHistory(d.getVersionsManager().getStrategy().getEntireHistory());
-                d.getVersionsManager().setStrategy(svs);
-                d.getVersionsManager().enable();
+                svs.setEntireHistory(vm.getStrategy().getEntireHistory());
+                vm.setStrategy(svs);
+                vm.enable();
             }
         });
     }
@@ -265,8 +268,10 @@ class StableVersionStrategyCommand implements Command{
 
 class VolatileVersionStrategyCommand implements Command{
     private JMenu j;
-    public VolatileVersionStrategyCommand(JMenu j){
+    private VersionsManager vm;
+    public VolatileVersionStrategyCommand(JMenu j, VersionsManager verMan){
         this.j=j;
+        this.vm=verMan;
     }
 
     public void execute(Document d, JTextArea input){
@@ -275,9 +280,9 @@ class VolatileVersionStrategyCommand implements Command{
         vvsCommand.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 VolatileVersionsStrategy vvs = new VolatileVersionsStrategy();
-                vvs.setEntireHistory(d.getVersionsManager().getStrategy().getEntireHistory());
-                d.getVersionsManager().setStrategy(vvs);
-                d.getVersionsManager().enable();
+                vvs.setEntireHistory(vm.getStrategy().getEntireHistory());
+                vm.setStrategy(vvs);
+                vm.enable();
             }
         });
     }
@@ -285,11 +290,19 @@ class VolatileVersionStrategyCommand implements Command{
 
 class DisableStrategyCommand implements Command{
     private JMenu j;
-    public DisableStrategyCommand(JMenu j){
+    private VersionsManager vm;
+    public DisableStrategyCommand(JMenu j, VersionsManager verMan){
         this.j=j;
+        this.vm=verMan;
     }
 
     public void execute(Document d, JTextArea input){
-        d.getVersionsManager().disable();
+        JMenuItem dsCommand = new JMenuItem("Disable");
+        j.add(dsCommand);
+        dsCommand.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                vm.disable();
+            }
+        });
     }
 }

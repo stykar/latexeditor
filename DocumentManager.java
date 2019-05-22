@@ -2,7 +2,8 @@ import java.io.*;
 
 public class DocumentManager{
     public DocumentManager(){
-
+        VolatileVersionsStrategy vvs = new VolatileVersionsStrategy();
+        VersionsManager vm = new VersionsManager(vvs);
     }
 
     public Document createDocument(String s ){

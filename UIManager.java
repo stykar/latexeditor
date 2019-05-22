@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.JTextArea;
@@ -7,8 +8,8 @@ import javax.swing.JTextArea;
 
 public class UIManager{
     private LatexEditorController controller;
-    private String latexString="";
     private Document doc;
+    private VersionsManager vm;
 
     public void createFirstUI() {
         JFrame f = new JFrame("LaTeX Template");
@@ -97,12 +98,10 @@ public class UIManager{
         JTextField jt2 = new JTextField(30);
         JTextField jt3 = new JTextField(30);
         JTextField jt4 = new JTextField(30);
-        JTextField jt5 = new JTextField(30);
         JLabel lab1 = new JLabel("author:");
         JLabel lab2 = new JLabel("date:");
         JLabel lab3 = new JLabel("copyright:");
         JLabel lab4 = new JLabel("versionID:");
-        JLabel lab5 = new JLabel("content:");
         pop.setSize(1000,600);
         pop.setLocation(300,200);
         pop.setVisible(true);
@@ -176,6 +175,9 @@ public class UIManager{
 
 
     public void createSecondUI(Document d){
+        VolatileVersionsStrategy vvs = new VolatileVersionsStrategy();
+        VersionsManager verman = new VersionsManager(vvs);
+        this.vm = verman;
         this.doc=d;
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
@@ -184,7 +186,7 @@ public class UIManager{
         final JTextArea textArea = new JTextArea(200, 400);
         JScrollPane scroll = new JScrollPane(textArea);
         textArea.append(doc.getContents());
-        textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea,doc));
+        textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea, vm, doc));
        
         f.getContentPane().add(scroll);
         //f.getContentPane().add(BorderLayout.CENTER, textArea);
@@ -196,13 +198,13 @@ public class UIManager{
         mb.add(file);
         mb.add(vt);
 
-        StableVersionStrategyCommand svsc = new StableVersionStrategyCommand(vt);
+        StableVersionStrategyCommand svsc = new StableVersionStrategyCommand(vt, vm);
         svsc.execute(doc, textArea);
 
-        VolatileVersionStrategyCommand vvsc = new VolatileVersionStrategyCommand(vt);
+        VolatileVersionStrategyCommand vvsc = new VolatileVersionStrategyCommand(vt, vm);
         vvsc.execute(doc, textArea);
         
-        DisableStrategyCommand dsc = new DisableStrategyCommand(vt);
+        DisableStrategyCommand dsc = new DisableStrategyCommand(vt, vm);
         dsc.execute(doc, textArea);
 
         SaveCommand save = new SaveCommand(file);
@@ -211,8 +213,8 @@ public class UIManager{
         LoadCommand load = new LoadCommand(file);
         load.execute(doc, textArea);
         
-        UndoCommand undo = new UndoCommand(file);
-        undo.execute(doc, textArea);
+        /*UndoCommand undo = new UndoCommand(file, vm);
+        undo.execute(doc, textArea);*/
 
         JMenu addCommand = new JMenu("Add Command");
         mb.add(addCommand);
@@ -255,8 +257,10 @@ public class UIManager{
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                StableVersionsStrategy svs = new StableVersionsStrategy();
+                svs.setEntireHistory(vm.getStrategy().getEntireHistory());
+                svs.clearAndGo();
                 System.exit(0);
-
             }
         });        
     }

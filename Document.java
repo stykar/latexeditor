@@ -8,7 +8,6 @@ public class Document{
     private String copyright;
     private String versionID;
     private String content;
-    private VersionsManager versionsManager;
 
     public Document(String author,String date, String copyright, String versionID, String content){
         this.author=author;
@@ -16,9 +15,6 @@ public class Document{
         this.copyright=copyright;
         this.versionID=versionID;
         this.content=content;
-        VolatileVersionsStrategy vvs = new VolatileVersionsStrategy();
-        VersionsManager vm = new VersionsManager(vvs);
-        this.versionsManager = vm;
     }
     // TODO
     /*public Document clone(){
@@ -77,9 +73,5 @@ public class Document{
     }
     public String getContents(){
         return content;
-    }
-
-    public VersionsManager getVersionsManager(){
-        return versionsManager;
     }
 }
