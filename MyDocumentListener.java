@@ -15,27 +15,29 @@ public class MyDocumentListener implements  DocumentListener{
     }
     public void insertUpdate(DocumentEvent e){
         //manager.getStrategy().putVersion(doc);
-        System.out.println("insert");
-        updateLog();
+        if(vm.getIsUndo()){
+            vm.setIsUndo(false);
+        }else{
+            updateLog();
+        }
     }
     public void removeUpdate(DocumentEvent e){
         //manager.getStrategy().putVersion(doc);
-        System.out.println("remove");
-        updateLog();
+        if(!vm.getIsUndo()){
+            updateLog();
+        }
     }
     public void changedUpdate(DocumentEvent e){
-        //manager.getStrategy().putVersion(doc);
-        System.out.println("changed");
         updateLog();
     }
     public void updateLog(){
+        System.out.println(vm.getStrategy().getEntireHistory().size());
         if(vm.isEnabled()){
             if(!allText.equals(area.getText())){
                 this.allText = area.getText();
                 Document d = new Document(doc.getAuthor(), doc.getDate(), 
                         doc.getCopyright(), doc.getVersionID(), allText);
                 vm.getStrategy().putVersion(d);
-                System.out.println("update");
             }
         }
     }

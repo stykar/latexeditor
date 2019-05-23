@@ -179,6 +179,7 @@ public class UIManager{
         VersionsManager verman = new VersionsManager(vvs);
         this.vm = verman;
         this.doc=d;
+        this.vm.getStrategy().putVersion(d);
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
         f.setLocation(300,200);
@@ -213,8 +214,8 @@ public class UIManager{
         LoadCommand load = new LoadCommand(file);
         load.execute(doc, textArea);
         
-        /*UndoCommand undo = new UndoCommand(file, vm);
-        undo.execute(doc, textArea);*/
+        UndoCommand undo = new UndoCommand(file, vm);
+        undo.execute(doc, textArea);
 
         JMenu addCommand = new JMenu("Add Command");
         mb.add(addCommand);

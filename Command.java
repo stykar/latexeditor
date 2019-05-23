@@ -226,7 +226,7 @@ class AddFigure implements Command{
     }
 }
 
-/*class UndoCommand implements Command{
+class UndoCommand implements Command{
     private JMenu j;
     private VersionsManager vm;
     public UndoCommand(JMenu j, VersionsManager verMan){
@@ -242,7 +242,7 @@ class AddFigure implements Command{
             }
         });
     }
-}*/
+}
 
 class StableVersionStrategyCommand implements Command{
     private JMenu j;
