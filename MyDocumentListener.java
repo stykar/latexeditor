@@ -1,42 +1,44 @@
 import javax.swing.event.*;
-import java.awt.*;
-import java.io.*;
 import java.util.ArrayList;
-import java.awt.event.*;
-
-import javax.swing.*;
 import javax.swing.JTextArea;
 
 public class MyDocumentListener implements  DocumentListener{
-    private String keimeno;
-    private ArrayList<String> instances = new ArrayList<>();
-    //private int counter = 0;
-    public MyDocumentListener(JTextArea str){
-        this.keimeno=str.getText();
+    private String allText;
+    private VersionsManager vm;
+    private Document doc;
+    private JTextArea area;
+    public MyDocumentListener(JTextArea text, VersionsManager verman, Document d){
+        this.area = text;
+        this.allText = text.getText();
+        this.vm = verman;
+        this.doc=d;
     }
     public void insertUpdate(DocumentEvent e){
-        System.out.println("mpike1");
-        updateLog();
+        //manager.getStrategy().putVersion(doc);
+        if(vm.getIsUndo()){
+            vm.setIsUndo(false);
+        }else{
+            updateLog();
+        }
     }
     public void removeUpdate(DocumentEvent e){
-        System.out.println("mpike2");
-        updateLog();
+        //manager.getStrategy().putVersion(doc);
+        if(!vm.getIsUndo()){
+            updateLog();
+        }
     }
     public void changedUpdate(DocumentEvent e){
-        System.out.println("mpike3");
         updateLog();
     }
     public void updateLog(){
-        System.out.println("mpike4");
-        if(instances.size()==0){
-            instances.add(keimeno);
-            //counter++;
-            //System.out.println(keimeno);
-        }
-        if(instances.get(instances.size()-1) != keimeno){
-            instances.add(keimeno);
-           //System.out.println(keimeno);
-            //counter++;            
+        System.out.println(vm.getStrategy().getEntireHistory().size());
+        if(vm.isEnabled()){
+            if(!allText.equals(area.getText())){
+                this.allText = area.getText();
+                Document d = new Document(doc.getAuthor(), doc.getDate(), 
+                        doc.getCopyright(), doc.getVersionID(), allText);
+                vm.getStrategy().putVersion(d);
+            }
         }
     }
 }

@@ -1,25 +1,23 @@
 import java.awt.*;
-import java.awt.desktop.FilesEvent;
-import java.io.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.JTextArea;
-import javax.swing.filechooser.*;
-import javax.swing.event.DocumentListener;
 
 
 public class UIManager{
+    private LatexEditorController controller;
+    private Document doc;
+    private VersionsManager vm;
 
-    public static void createFirstUI() {
+    public void createFirstUI() {
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
         f.setLocation(300,200);
-        //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel p = new JPanel(new GridBagLayout());
         JLabel lab = new JLabel("Choose Template:");
-        String latexString="";
 
 
 
@@ -41,11 +39,7 @@ public class UIManager{
         tmp1Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e1) {
-                String latexString;
-                ReportTemplate template = new ReportTemplate();
-                latexString = template.createTemplate();
-                UIManager ui2 = new UIManager();
-                ui2.createSecondUI(latexString);
+                createPopUp(0);
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
             }
         });
@@ -53,12 +47,7 @@ public class UIManager{
         tmp2Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e2){
-                String latexString;
-                BookTemplate template = new BookTemplate();
-                latexString = template.createTemplate();
-                //JOptionPane.showMessageDialog(null,"Created Book Template");
-                UIManager ui2 = new UIManager();
-                ui2.createSecondUI(latexString);
+                createPopUp(1);
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         });
@@ -66,12 +55,7 @@ public class UIManager{
         tmp3Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e3){
-                String latexString;
-                ArticleTemplate template = new ArticleTemplate();
-                latexString = template.createTemplate();
-                //JOptionPane.showMessageDialog(null,"Created Article Template");
-                UIManager ui2 = new UIManager();
-                ui2.createSecondUI(latexString);
+                createPopUp(2);
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         });  
@@ -79,12 +63,7 @@ public class UIManager{
         tmp4Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e4){
-                String latexString;
-                LetterTemplate template = new LetterTemplate();
-                latexString = template.createTemplate();
-                //JOptionPane.showMessageDialog(null,"Created Letter Template");
-                UIManager ui2 = new UIManager();
-                ui2.createSecondUI(latexString);
+                createPopUp(3);
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         }); 
@@ -92,12 +71,7 @@ public class UIManager{
         tmp5Button.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e5){
-                String latexString;
-                EmptyTemplate template = new EmptyTemplate();
-                latexString = template.createTemplate();
-                //JOptionPane.showMessageDialog(null,"Created Empty Template");
-                UIManager ui2 = new UIManager();
-                ui2.createSecondUI(latexString);
+                createPopUp(4);
                 f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));                
             }
         });         
@@ -116,186 +90,164 @@ public class UIManager{
 
         f.setVisible(true);
     }
+    public void createPopUp(int num){
+        JFrame pop = new JFrame("Inputs");
+        JPanel poppan = new JPanel(new GridBagLayout());
+        JButton enter = new JButton("Enter");
+        JTextField jt1 = new JTextField(30);
+        JTextField jt2 = new JTextField(30);
+        JTextField jt3 = new JTextField(30);
+        JTextField jt4 = new JTextField(30);
+        JLabel lab1 = new JLabel("author:");
+        JLabel lab2 = new JLabel("date:");
+        JLabel lab3 = new JLabel("copyright:");
+        JLabel lab4 = new JLabel("versionID:");
+        pop.setSize(1000,600);
+        pop.setLocation(300,200);
+        pop.setVisible(true);
+        GridBagConstraints d = new GridBagConstraints();
+        d.gridx = 0;
+        d.gridy = 1;
+        poppan.add(lab1,d);
+        d.gridx = 1;
+        d.gridy = 1;
+        poppan.add(jt1,d);
+        d.gridx = 0;
+        d.gridy = 2;
+        poppan.add(lab2,d);
+        d.gridx = 1;
+        d.gridy = 2;
+        poppan.add(jt2,d);
+        d.gridx = 0;
+        d.gridy = 3;
+        poppan.add(lab3,d);
+        d.gridx = 1;
+        d.gridy = 3;
+        poppan.add(jt3,d);
+        d.gridx = 0;
+        d.gridy = 4;
+        poppan.add(lab4,d);
+        d.gridx = 1;
+        d.gridy = 4;
+        poppan.add(jt4,d);
+        d.gridx = 0;
+        d.gridy = 5;
+        /*poppan.add(lab5,d);
+        d.gridx = 1;
+        d.gridy = 5;
+        poppan.add(jt5,d);
+        d.gridx = 0;
+        d.gridy = 6;*/
+        pop.add(poppan);
+        final JButton enterButton = new JButton("Enter Inputs");
+        pop.getContentPane().add(BorderLayout.SOUTH, enterButton);
 
-    public void createSecondUI(String latexString){
+        enterButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                String author= jt1.getText();
+                String date= jt2.getText();
+                String copyright= jt3.getText();
+                String versionID= jt4.getText();
+                System.out.println(author);
+                if(num==0){
+                    controller.reportTemplatePressed(author, date, copyright, versionID);
+                    pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
+                }
+                else if(num==1){
+                    controller.bookTemplatePressed(author, date, copyright, versionID);
+                    pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
+                }
+                else if(num==2){
+                    controller.articleTemplatePressed(author, date, copyright, versionID);
+                    pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
+                }
+                else if(num==3){
+                    controller.letterTemplatePressed(author, date, copyright, versionID);
+                    pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
+                }
+                else{
+                    controller.emptyTemplatePressed(author, date, copyright, versionID);
+                    pop.dispatchEvent(new WindowEvent(pop, WindowEvent.WINDOW_CLOSING));
+                }
+            }
+        });
+    }
+
+
+    public void createSecondUI(Document d){
+        VolatileVersionsStrategy vvs = new VolatileVersionsStrategy();
+        VersionsManager verman = new VersionsManager(vvs);
+        this.vm = verman;
+        this.doc=d;
+        this.vm.getStrategy().putVersion(d);
         JFrame f = new JFrame("LaTeX Template");
         f.setSize(1000, 600);
         f.setLocation(300,200);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         final JTextArea textArea = new JTextArea(200, 400);
-        textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea));
+        JScrollPane scroll = new JScrollPane(textArea);
+        textArea.append(doc.getContents());
+        textArea.getDocument().addDocumentListener(new MyDocumentListener(textArea, vm, doc));
        
-    
-        f.getContentPane().add(BorderLayout.CENTER, textArea);
-        textArea.append(latexString);
+        f.getContentPane().add(scroll);
+        //f.getContentPane().add(BorderLayout.CENTER, textArea);
+
         textArea.setCaretPosition(textArea.getDocument().getLength());
         JMenuBar mb = new JMenuBar();
         JMenu file = new JMenu("File");
+        JMenu vt = new JMenu("Version Tracking");
         mb.add(file);
-        JMenuItem save = new JMenuItem("Save");
-        file.add(save);
-        save.addActionListener(new ActionListener(){
-            String filepath;
-            public void actionPerformed(ActionEvent e){
-                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                int returnValue = jfc.showSaveDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION){
-                    File selectedFile = jfc.getSelectedFile();
-                    filepath = selectedFile.getAbsolutePath();
-                }
-                try {
+        mb.add(vt);
 
-                    FileWriter dest;
-                    dest = new FileWriter(filepath+".tex");
-                    dest.write(textArea.getText());
-                    dest.close();
-                    } catch (FileNotFoundException err) {
-            
-                    } catch (IOException err) {
-            
-                    }                
-            }
-        });
-        JMenuItem load = new JMenuItem("Load");
-        file.add(load);
-        load.addActionListener(new ActionListener(){
-            String filepath;
-            public void actionPerformed(ActionEvent e){
+        StableVersionStrategyCommand svsc = new StableVersionStrategyCommand(vt, vm);
+        svsc.execute(doc, textArea);
 
-                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                jfc.setDialogTitle("Select a LaTeX File");
-                jfc.setAcceptAllFileFilterUsed(false);
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("LaTeX Files", "tex");
-                jfc.addChoosableFileFilter(filter);
-                int returnValue = jfc.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION){
-                    File selectedFile = jfc.getSelectedFile();
-                    filepath = selectedFile.getAbsolutePath();
-                }
-
-                BufferedReader src;
-                String fileData="";
-                String line="";
-                try {
-                    src = new BufferedReader(new FileReader(filepath));
-                    line=src.readLine();
-                    while (line != null) {
-                        fileData+=line+"\n";
-                        line=src.readLine();
-                    }
-                    src.close();
-                } catch (FileNotFoundException err) {
-
-                } catch (IOException err) {
-
-                }
-                textArea.setText("");
-                textArea.append(fileData);
-                //loadedtmp.createTemplate();
-            }
-        });
+        VolatileVersionStrategyCommand vvsc = new VolatileVersionStrategyCommand(vt, vm);
+        vvsc.execute(doc, textArea);
         
-        JMenuItem undo = new JMenuItem("Undo");
-        file.add(undo);
+        DisableStrategyCommand dsc = new DisableStrategyCommand(vt, vm);
+        dsc.execute(doc, textArea);
+
+        SaveCommand save = new SaveCommand(file);
+        save.execute(doc, textArea);
+        
+        LoadCommand load = new LoadCommand(file);
+        load.execute(doc, textArea);
+        
+        UndoCommand undo = new UndoCommand(file, vm);
+        undo.execute(doc, textArea);
 
         JMenu addCommand = new JMenu("Add Command");
         mb.add(addCommand);
-        JMenuItem addChapter = new JMenuItem("Add Chapter");
-        addCommand.add(addChapter);
-        addChapter.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                String checkTemplate = "{letter}";
-                String checkTemplate2 = "{article}";
-                if(latexString.contains(checkTemplate) || latexString.contains(checkTemplate2)){
-                    JOptionPane.showMessageDialog(null,"Cant put Chapter in this Template");
-                } else{
-                    textArea.insert("\\chapter{...}", textArea.getCaretPosition());
-                }
-            }
-        });
 
-        JMenuItem addSection = new JMenuItem("Add Section");
-        addCommand.add(addSection);
-        addSection.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                String checkTemplate = "{letter}";
-                if(latexString.contains(checkTemplate)){
-                    JOptionPane.showMessageDialog(null,"Cant put Section in this Template");
-                } else{
-                    textArea.insert("\\section{}", textArea.getCaretPosition());
-                }
-            }
-        });
+        AddChapter addChapter = new AddChapter(addCommand);
+        addChapter.execute(doc, textArea);
 
-        JMenuItem addSubsection = new JMenuItem("Add Subsection");
-        addCommand.add(addSubsection);
-        addSubsection.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                textArea.insert("\\Subsection{}", textArea.getCaretPosition());
-            }
-        });
+        AddSection addSection = new AddSection(addCommand);
+        addSection.execute(doc,textArea);
+    
 
-        JMenuItem addSubsubsection = new JMenuItem("Add Subsubsection");
-        addCommand.add(addSubsubsection);
-        addSubsubsection.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                textArea.insert("\\Subsubsection{}", textArea.getCaretPosition());
-            }
-        });
+        AddSubsection addSubsection = new AddSubsection(addCommand);
+        addSubsection.execute(doc, textArea);
 
-        JMenuItem addEnumerationListItemize = new JMenuItem("Add Enumeration List(itemize)");
-        addCommand.add(addEnumerationListItemize);
-        addEnumerationListItemize.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                textArea.insert("\\begin{itemize} \n"
-                                +" \\item ... \n \\item ... "
-                                +"\n \\end{itemize}", textArea.getCaretPosition());
-            }
-        });
-        JMenuItem addEnumerationListEnumerate = new JMenuItem("Add Enumeration List(enumerate)");
-        addCommand.add(addEnumerationListEnumerate);
-        addEnumerationListEnumerate.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                textArea.insert("\\begin{enumerate} \n"
-                                +" \\item ... \n \\item ... "
-                                +"\n \\end{enumerate}", textArea.getCaretPosition());
-            }
-        });
-        JMenuItem addTable = new JMenuItem("Add Table");
-        addCommand.add(addTable);
-        addTable.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                textArea.insert("\\begin{table} \n"
-                +"\\caption{....}\\label{...} \n"
-                +"\\begin{tabular}{|c|c|c|} \n"
-                +"  \\hline\n"
-                +"... &...&...\\ \n"
-                +"... &...&...\\ \n"
-                +"... &...&...\\ \n"
-                +"  \\hline \n"
-                +"\\end{tabular}\n"
-                +"\\end{table}", textArea.getCaretPosition());
-            }
-        });
-        JMenuItem addFigure = new JMenuItem("Add Figure");
-        addCommand.add(addFigure);
-        addFigure.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                textArea.insert("\\begin{figure}\n"
-                +"\\includegraphics[width=...,height=...]{...}\n"
-                +"\\caption{....}\\label{...}"
-                +"\\end{figure}", textArea.getCaretPosition());
-            }
-        });
+        AddSubSubSection addSubsubsection = new AddSubSubSection(addCommand);
+        addSubsubsection.execute(doc, textArea);
+    
+
+        
+        AddEnumerationListItemize addEnumerationListItemize = new AddEnumerationListItemize(addCommand);
+        addEnumerationListItemize.execute(doc, textArea);
+
+        AddEnumerationListEnumerate addEnumerationListEnumerate = new AddEnumerationListEnumerate(addCommand);
+        addEnumerationListEnumerate.execute(doc, textArea);
+        
+        AddTable addTable = new AddTable(addCommand);
+        addTable.execute(doc, textArea);
+
+        AddFigure addFigure = new AddFigure(addCommand);
+        addFigure.execute(doc, textArea);
+
         f.setJMenuBar(mb);
-        
-        
-        addCommand.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-
-            }
-        });
         
         
         f.setVisible(true);
@@ -306,8 +258,10 @@ public class UIManager{
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                StableVersionsStrategy svs = new StableVersionsStrategy();
+                svs.setEntireHistory(vm.getStrategy().getEntireHistory());
+                svs.clearAndGo();
                 System.exit(0);
-
             }
         });        
     }
@@ -317,5 +271,9 @@ public class UIManager{
         arxeio = JOptionPane.showInputDialog("give file path and/or name");
         String filepath = arxeio;
         return filepath;
+    }
+
+    public UIManager(LatexEditorController c){
+        this.controller=c;
     }
 }

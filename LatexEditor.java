@@ -1,9 +1,9 @@
 //import java.io.*;
-import java.util.Scanner;
 
 public class LatexEditor{
      public static void main(String[] args) {
-        Controller cont = new Controller();
-        cont.startControlling();
+        LatexEditorController cont = new LatexEditorController();
+        UIManager ui = new UIManager(cont);
+        cont.startControlling(ui);
     }
 }
