@@ -50,7 +50,7 @@ public class DocumentManager{
         }else if(s.equals("Article")){
             String latexString="";
             try {
-                System.out.print("0");
+                //System.out.print("0");
                 BufferedReader src;
                 String line="";
                 src = new BufferedReader(new FileReader("temp3.tex"));
