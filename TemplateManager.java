@@ -1,3 +1,6 @@
+package model;
+import controller.*;
+import view.*;
 import java.io.*;
 
 public interface TemplateManager{

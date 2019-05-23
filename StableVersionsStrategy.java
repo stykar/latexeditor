@@ -1,53 +1,13 @@
 package model;
 import controller.*;
 import view.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.*;
 
-public interface VersionsStrategy {
-    public void putVersion(Document d);
-
-    public Document getVersion();
-
-    public void setEntireHistory(List<Document> dList);
-
-    public List<Document> getEntireHistory();
-
-    public void removeVersion();
-}
-
-/*class VolatileVersionsStrategy implements VersionsStrategy {
-    private List<Document> dList;
-
-    public VolatileVersionsStrategy() {
-        this.dList = new ArrayList<Document>();
-    }
-
-    public void putVersion(Document doc) {
-        this.dList.add(doc);
-    }
-
-    public Document getVersion() {
-        return this.dList.get(this.dList.size()-1);
-    }
-
-    public void setEntireHistory(List<Document> docList) {
-        this.dList = docList;
-    }
-
-    public List<Document> getEntireHistory() {
-        return this.dList;
-    }
-
-    public void removeVersion() {
-        if(this.dList.size() > 1){
-            this.dList.remove(this.dList.size()-1);
-        }
-    }
-}*/
-
-/*class StableVersionsStrategy implements VersionsStrategy {
+public class StableVersionsStrategy implements VersionsStrategy {
     private List<File> fileList;
     private List<Document> docList;
     public StableVersionsStrategy() {
@@ -124,4 +84,4 @@ public interface VersionsStrategy {
             }
         }
     }
-}*/
+}

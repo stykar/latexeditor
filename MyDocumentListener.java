@@ -1,4 +1,8 @@
+package model;
+import controller.*;
+import view.*;
 import javax.swing.event.*;
+
 import java.util.ArrayList;
 import javax.swing.JTextArea;
 

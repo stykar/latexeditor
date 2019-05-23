@@ -1,4 +1,8 @@
+package model;
+import controller.*;
+import view.*;
 import javax.swing.JTextArea;
+
 import java.util.ArrayList;
 
 public class VersionsManager{

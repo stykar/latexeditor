@@ -1,3 +1,8 @@
+package controller;
+import model.*;
+import view.*;
+
+
 import java.io.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -8,7 +13,7 @@ public interface Command{
     public void execute(Document d, JTextArea jta);
 }
 
-class SaveCommand implements Command{
+/*class SaveCommand implements Command{
     private JMenu j;
     public SaveCommand(JMenu j){
         this.j=j;
@@ -23,9 +28,9 @@ class SaveCommand implements Command{
             }
         });
     }
-}
+}*/
 
-class LoadCommand implements Command{
+/*class LoadCommand implements Command{
     private JMenu j;
     public LoadCommand(JMenu j){
         this.j=j;
@@ -68,9 +73,9 @@ class LoadCommand implements Command{
             }
         });
     }
-}
+}*/
 
-class AddChapter implements Command{
+/*class AddChapter implements Command{
     private JMenu j;
     public AddChapter(JMenu j){
         this.j=j;
@@ -92,8 +97,8 @@ class AddChapter implements Command{
         });
         
     }
-}
-class AddSection implements Command{
+}*/
+/*class AddSection implements Command{
     private JMenu j;
     public AddSection(JMenu j){
         this.j=j;
@@ -112,9 +117,9 @@ class AddSection implements Command{
             }
         }); 
     }
-}
+}*/
 
-class AddSubsection implements Command{
+/*class AddSubsection implements Command{
     private JMenu j;
     public AddSubsection(JMenu j){
         this.j=j;
@@ -128,9 +133,9 @@ class AddSubsection implements Command{
             }
         });
     }
-}
+}*/
 
-class AddSubSubSection implements Command{
+/*class AddSubSubSection implements Command{
     private JMenu j;
     public AddSubSubSection(JMenu j){
         this.j=j;
@@ -144,9 +149,9 @@ class AddSubSubSection implements Command{
             }
         });
     }
-}
+}*/
 
-class AddEnumerationListItemize implements Command{
+/*class AddEnumerationListItemize implements Command{
     private JMenu j;
     public AddEnumerationListItemize(JMenu j){
         this.j=j;
@@ -162,9 +167,9 @@ class AddEnumerationListItemize implements Command{
             }
         });
     }     
-}
+}*/
 
-class AddEnumerationListEnumerate implements Command{
+/*class AddEnumerationListEnumerate implements Command{
     private JMenu j;
     public AddEnumerationListEnumerate(JMenu j){
         this.j=j;
@@ -180,9 +185,9 @@ class AddEnumerationListEnumerate implements Command{
             }
         });
     }
-}
+}*/
 
-class AddTable implements Command{
+/*class AddTable implements Command{
     private JMenu j;
     public AddTable(JMenu j){
         this.j=j;
@@ -205,9 +210,9 @@ class AddTable implements Command{
             }
         });
     }
-}
+}*/
 
-class AddFigure implements Command{
+/*class AddFigure implements Command{
     private JMenu j;
     public AddFigure(JMenu j){
         this.j=j;
@@ -224,9 +229,9 @@ class AddFigure implements Command{
             }
         });
     }
-}
+}*/
 
-class UndoCommand implements Command{
+/*class UndoCommand implements Command{
     private JMenu j;
     private VersionsManager vm;
     public UndoCommand(JMenu j, VersionsManager verMan){
@@ -242,9 +247,9 @@ class UndoCommand implements Command{
             }
         });
     }
-}
+}*/
 
-class StableVersionStrategyCommand implements Command{
+/*class StableVersionStrategyCommand implements Command{
     private JMenu j;
     private VersionsManager vm;
     public StableVersionStrategyCommand(JMenu j, VersionsManager verMan){
@@ -264,9 +269,9 @@ class StableVersionStrategyCommand implements Command{
             }
         });
     }
-}
+}*/
 
-class VolatileVersionStrategyCommand implements Command{
+/*class VolatileVersionStrategyCommand implements Command{
     private JMenu j;
     private VersionsManager vm;
     public VolatileVersionStrategyCommand(JMenu j, VersionsManager verMan){
@@ -286,9 +291,9 @@ class VolatileVersionStrategyCommand implements Command{
             }
         });
     }
-}
+}*/
 
-class DisableStrategyCommand implements Command{
+/*class DisableStrategyCommand implements Command{
     private JMenu j;
     private VersionsManager vm;
     public DisableStrategyCommand(JMenu j, VersionsManager verMan){
@@ -305,4 +310,4 @@ class DisableStrategyCommand implements Command{
             }
         });
     }
-}
+}*/

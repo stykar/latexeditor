@@ -1,4 +1,7 @@
-//import java.io.*;
+package controller;
+import model.*;
+import view.*;
+
 
 public class LatexEditor{
      public static void main(String[] args) {

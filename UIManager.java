@@ -1,9 +1,14 @@
+package view;
+import controller.*;
+import model.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.JTextArea;
+
+
 
 
 public class UIManager{

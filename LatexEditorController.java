@@ -1,3 +1,6 @@
+package controller;
+import model.*;
+import view.*;
 public class LatexEditorController{
     private Document doc;
     private UIManager ui;
