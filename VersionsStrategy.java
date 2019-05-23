@@ -69,7 +69,7 @@ class StableVersionsStrategy implements VersionsStrategy {
     }
     public Document getVersion(){
         if(this.docList.size() >= 1){
-            return this.docList.get(this.docList.size());
+            return this.docList.get(this.docList.size()-1);
         }
         Document noDoc = new Document("", "", "", "", "");
         return noDoc;
